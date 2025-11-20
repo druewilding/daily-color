@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.12](https://github.com/druewilding/daily-color/compare/v2.3.11...v2.3.12) (2025-11-20)
+
+
+### Chores
+
+* Update dependencies ([#63](https://github.com/druewilding/daily-color/issues/63)) ([3c7e17f](https://github.com/druewilding/daily-color/commit/3c7e17f91896fb60c4c6e00361478a8015a60087))
+
 ## [2.3.11](https://github.com/aimeerivers/daily-color/compare/v2.3.10...v2.3.11) (2025-10-20)
 
 
