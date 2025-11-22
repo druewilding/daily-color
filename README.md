@@ -25,7 +25,7 @@ Directly loading the bundled JavaScript, for static projects not using NPM:
 
 ```html
 <script type="module">
-  import { getDailyColor } from "https://www.aimeerivers.com/daily-color/dist/daily-color.js";
+  import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
 
   console.log("Today's color is:", getDailyColor());
   console.log("Another day's color is:", getDailyColor(new Date("2024-11-09")));
@@ -40,11 +40,11 @@ dailycolor
 
 Just want to see today's color?
 
-There is a demo on [www.aimeerivers.com/daily-color](https://www.aimeerivers.com/daily-color/)
+There is a demo on [www.druewilding.com/daily-color](https://www.druewilding.com/daily-color/)
 
-Want to see a particular date? No problem, just add a `date` parameter, for example [www.aimeerivers.com/daily-color/?date=2025-01-29](https://www.aimeerivers.com/daily-color/?date=2025-01-29)
+Want to see a particular date? No problem, just add a `date` parameter, for example [www.druewilding.com/daily-color/?date=2025-01-29](https://www.druewilding.com/daily-color/?date=2025-01-29)
 
-And if you want to see the coming colors for the next month you can see them on [www.aimeerivers.com/daily-color/month](https://www.aimeerivers.com/daily-color/month)
+And if you want to see the coming colors for the next month you can see them on [www.druewilding.com/daily-color/month](https://www.druewilding.com/daily-color/month)
 
 ## Development
 
