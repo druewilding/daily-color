@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.16](https://github.com/druewilding/daily-color/compare/v2.3.15...v2.3.16) (2026-11-17)
+
+
+### Documentation
+
+* Add more info about what this actually is ([#71](https://github.com/druewilding/daily-color/issues/71)) ([c1de1ac](https://github.com/druewilding/daily-color/commit/c1de1ac26ed9d4ca6e6c13f3210093ee91d82326))
+
 ## [2.3.15](https://github.com/druewilding/daily-color/compare/v2.3.14...v2.3.15) (2026-03-20)
 
 
