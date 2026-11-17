@@ -38,7 +38,7 @@
     "webpack": "npx webpack"
   },
   "devDependencies": {
-    "eslint-config-plus-prettier": "^4.2.4",
+    "eslint-config-plus-prettier": "5.0.0",
     "webpack": "5.112.2",
     "webpack-cli": "7.3.1"
   },
