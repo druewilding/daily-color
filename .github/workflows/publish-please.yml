@@ -4,15 +4,21 @@ on:
   release:
     types: [created]
 
+# Trusted publishing: npm trusts this workflow directly (via GitHub's OIDC
+# token), so there's no npm token to store or renew
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
           node-version: node
           registry-url: https://registry.npmjs.org
@@ -22,5 +28,3 @@ jobs:
 
       - name: Publish to npm
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
