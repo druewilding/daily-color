@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.17](https://github.com/druewilding/daily-color/compare/v2.3.16...v2.3.17) (2026-11-17)
+
+
+### Continuous Integration
+
+* Publish with npm trusted publishing and stop audits failing on dev-only issues ([#73](https://github.com/druewilding/daily-color/issues/73)) ([b280b54](https://github.com/druewilding/daily-color/commit/b280b542362ad3391ab1ac986c845a1a779601f5))
+
 ## [2.3.16](https://github.com/druewilding/daily-color/compare/v2.3.15...v2.3.16) (2026-11-17)
 
 
