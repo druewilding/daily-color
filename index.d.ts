@@ -1,1 +1,1 @@
-export function getDailyColor(): string;
+export function getDailyColor(date?: Date): string;
