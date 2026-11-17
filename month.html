@@ -1,53 +1,137 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A Month of Color</title>
+    <meta name="description" content="The Daily Color for each of the next 36 days." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@600&display=swap"
+    />
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        display: flex;
-        height: 100vh;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
         background-color: #000;
       }
+
+      /* Six by six, filling the screen. Phones get three across and scroll. */
       .grid {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(6, 1fr);
-        width: 100vw;
-        height: 100vh;
+        grid-auto-rows: calc(100svh / 6);
+        min-height: 100svh;
+        margin: 0;
+        padding: 0;
+        list-style: none;
       }
+
+      @media (max-width: 40rem) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: 7.5rem;
+        }
+      }
+
       .box {
         display: flex;
-        border-radius: 10px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.4rem;
+        text-align: center;
+        height: calc(100% - 4px);
         margin: 2px;
+        padding: 0.6rem 0.75rem;
+        color: var(--ink);
+        background: var(--day);
+        border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6) inset;
+        text-decoration: none;
       }
-      .box:hover {
+
+      .box:hover,
+      .box:focus-visible {
+        position: relative;
         margin: 1px;
+        height: calc(100% - 2px);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      }
+
+      .box__date {
+        font-size: clamp(0.8rem, 1.4vw, 1rem);
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      .box__weekday {
+        display: block;
+        font-weight: 400;
+        opacity: 0.8;
+      }
+
+      .box__hex {
+        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+        font-weight: 600;
+      }
+
+      .box--today {
+        outline: 3px solid var(--ink);
+        outline-offset: -8px;
       }
     </style>
   </head>
 
   <body>
-    <div class="grid" id="grid"></div>
+    <ol class="grid" id="grid" aria-label="The next 36 days"></ol>
     <script type="module">
-      import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
+      import { getDailyColor } from "./dist/daily-color.js";
 
       const grid = document.getElementById("grid");
-      const today = new Date();
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
       for (let i = 0; i < 36; i++) {
-        const box = document.createElement("div");
-        box.classList.add("box");
-        grid.appendChild(box);
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+        const hex = getDailyColor(date);
+        const weekday = i === 0 ? "Today" : date.toLocaleDateString("en-GB", { weekday: "long" });
+        const day = date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
-        const date = new Date(today);
-        date.setDate(today.getDate() + i);
-        const color = getDailyColor(date);
-        box.style.backgroundColor = color;
+        const li = document.createElement("li");
+        const box = document.createElement("a");
+        box.className = "box" + (i === 0 ? " box--today" : "");
+        box.href = i === 0 ? "./" : "./?date=" + isoDate(date);
+        box.style.setProperty("--day", hex);
+        box.style.setProperty("--ink", inkFor(hex));
+        box.innerHTML =
+          `<span class="box__date"><span class="box__weekday">${weekday}</span>${day}</span>` +
+          `<span class="box__hex">${hex}</span>`;
+        li.append(box);
+        grid.append(li);
+      }
+
+      function isoDate(d) {
+        const pad = (n) => String(n).padStart(2, "0");
+        return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+      }
+
+      // Black or white text, whichever is easier to read on the colour
+      function inkFor(colour) {
+        const lin = (v) => {
+          v /= 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        const [r, g, b] = colour.match(/\w\w/g).map((h) => lin(parseInt(h, 16)));
+        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        return (lum + 0.05) / 0.05 >= 1.05 / (lum + 0.05) ? "#000000" : "#ffffff";
       }
     </script>
   </body>
