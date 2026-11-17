@@ -21,7 +21,7 @@
   ],
   "main": "index.js",
   "bin": {
-    "dailycolor": "./bin/dailycolor.js"
+    "dailycolor": "bin/dailycolor.js"
   },
   "repository": {
     "type": "git",
