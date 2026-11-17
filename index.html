@@ -1,65 +1,383 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Color</title>
+    <meta
+      name="description"
+      content="A different colour for every day of the year, the same for everyone in the world."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@600&display=swap"
+    />
     <style>
-      body,
-      html {
-        align-items: center;
-        display: flex;
-        font-family: sans-serif;
-        height: 100%;
-        justify-content: center;
+      :root {
+        --day: #888888;
+        --ink: #000000;
+        --bg: #fbfaf9;
+        --surface: #f1efed;
+        --fg: #1f1d1c;
+        --muted: #5f5b58;
+        --border: #dfdbd7;
+        --link: #1f1d1c;
+        color-scheme: light;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #161514;
+          --surface: #211f1e;
+          --fg: #f1efed;
+          --muted: #b3aeaa;
+          --border: #3a3735;
+          --link: #f1efed;
+          color-scheme: dark;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
         margin: 0;
       }
-      #color {
-        font-size: 4em;
-        font-weight: bold;
+
+      body {
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--fg);
+        background: var(--bg);
+      }
+
+      a {
+        color: var(--link);
+        text-underline-offset: 0.2em;
+      }
+
+      code,
+      pre {
+        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        font-variant-ligatures: none;
+      }
+
+      /* ── Today's colour, filling the screen ── */
+      .hero {
+        position: relative;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 0.75rem;
+        min-height: 100svh;
+        padding: 2rem 16px 5rem;
+        color: var(--ink);
+        background: var(--day);
         text-align: center;
       }
-      #color.light {
-        text-shadow: 0 0 0.4em rgba(0, 0, 0, 0.5);
+
+      .hero__label {
+        margin: 0;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.85rem;
       }
-      #color.dark {
-        text-shadow: 0 0 0.4em rgba(255, 255, 255, 0.5);
+
+      .hero__hex {
+        margin: 0;
+        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        font-size: clamp(3rem, 15vw, 8rem);
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .hero__nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+        margin-top: 0.75rem;
+      }
+
+      .hero__nav a {
+        padding: 0.4rem 1rem;
+        color: inherit;
+        font-weight: 600;
+        text-decoration: none;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+      }
+
+      .hero__nav a:hover {
+        color: var(--day);
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+
+      .hero__more {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: inherit;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .hero__more::after {
+        content: " ↓";
+      }
+
+      /* ── About ── */
+      main {
+        max-width: 44rem;
+        margin: 0 auto;
+        padding: 4rem 16px 3rem;
+      }
+
+      h2,
+      h3 {
+        font-family: "Bricolage Grotesque", Inter, sans-serif;
+        line-height: 1.15;
+      }
+
+      h2 {
+        margin: 3.5rem 0 1rem;
+        font-size: clamp(1.7rem, 5vw, 2.2rem);
+        font-weight: 800;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      h3 {
+        margin: 2rem 0 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      p,
+      ul {
+        margin: 0 0 1rem;
+      }
+
+      pre {
+        margin: 0 0 1rem;
+        padding: 1rem 1.15rem;
+        overflow-x: auto;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 6px solid var(--day);
+        border-radius: 8px;
+      }
+
+      :not(pre) > code {
+        padding: 0.1em 0.35em;
+        font-size: 0.88em;
+        background: var(--surface);
+        border-radius: 4px;
+      }
+
+      /* A little strip of the next fortnight's colours */
+      .strip {
+        display: grid;
+        grid-template-columns: repeat(14, 1fr);
+        gap: 4px;
+        margin: 1.5rem 0 0.5rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .strip a {
+        display: block;
+        aspect-ratio: 1;
+        border-radius: 4px;
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
+      }
+
+      .strip__caption {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      footer {
+        max-width: 44rem;
+        margin: 0 auto;
+        padding: 2rem 16px 3rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+      }
+
+      footer a {
+        color: inherit;
       }
     </style>
   </head>
 
   <body>
-    <div id="color"></div>
+    <header class="hero">
+      <p class="hero__label" data-label>Today</p>
+      <p class="hero__hex" data-hex>#000000</p>
+      <nav class="hero__nav" aria-label="Other days">
+        <a data-prev href="./">← Previous day</a>
+        <a data-next href="./">Next day →</a>
+      </nav>
+      <a class="hero__more" href="#about">What is this?</a>
+    </header>
+
+    <main id="about">
+      <h2>A colour for every day</h2>
+      <p>
+        Daily Color turns a date into a colour. Every day has its own hex code, and because it's worked out from the
+        date alone, everyone in the world gets the same colour on the same day. There's no server, no database and no
+        randomness, just a little bit of maths.
+      </p>
+      <p>
+        My website <a href="https://www.druewilding.com/">druewilding.com</a> wears the day's colour, so it looks
+        different every day. You can see <a href="https://www.druewilding.com/colours/">a whole year of colours</a> on a
+        calendar there.
+      </p>
+
+      <ol class="strip" data-strip aria-label="The next fortnight's colours"></ol>
+      <p class="strip__caption">The next fortnight. Pick one to see it here.</p>
+
+      <h2>How it works</h2>
+      <p>
+        The day, month and year are mixed together into one long string of digits. A small hash function turns that
+        string into a number, and three bytes of the number become the red, green and blue of the colour. A tiny change
+        in the date gives a completely different colour, so pale pinks, deep greens and bright yellows all turn up in no
+        particular order.
+      </p>
+      <p>
+        It uses the date where you are, so the colour changes at your own midnight. Run it twice on the same day and
+        you'll always get the same answer.
+      </p>
+
+      <h2>Use it</h2>
+
+      <h3>In a JavaScript or TypeScript project</h3>
+      <p>Install it from <a href="https://www.npmjs.com/package/daily-color">npm</a>:</p>
+      <pre><code>npm install daily-color</code></pre>
+      <p>Then ask for today's colour, or any other day's:</p>
+      <pre><code>import { getDailyColor } from "daily-color";
+
+getDailyColor(); // today, e.g. "<span data-hex>#000000</span>"
+getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
+
+      <h3>On a web page, without npm</h3>
+      <pre><code>&lt;script type="module"&gt;
+  import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
+
+  document.body.style.background = getDailyColor();
+&lt;/script&gt;</code></pre>
+
+      <h3>On the command line</h3>
+      <pre><code>npx daily-color</code></pre>
+      <p>
+        It prints today's colour. Install it globally with <code>npm install -g daily-color</code> to get a
+        <code>dailycolor</code> command.
+      </p>
+
+      <h3>On this page</h3>
+      <p>
+        Add a date to the address to see that day, like
+        <a href="?date=2027-01-01"><code>?date=2027-01-01</code></a
+        >. There's also <a href="month">a page of the next 36 days</a>.
+      </p>
+
+      <h2>Ideas</h2>
+      <ul>
+        <li>A website or app that changes colour every day</li>
+        <li>A colour of the day for a team chat, a dashboard or a desktop background</li>
+        <li>A daily drawing or knitting challenge</li>
+      </ul>
+    </main>
+
+    <footer>
+      Made by <a href="https://www.druewilding.com/">Drue Wilding</a>. The code is on
+      <a href="https://github.com/druewilding/daily-color">GitHub</a> and the package is on
+      <a href="https://www.npmjs.com/package/daily-color">npm</a>.
+    </footer>
+
     <script type="module">
-      import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
+      import { getDailyColor } from "./dist/daily-color.js";
 
-      function getDateFromUrl() {
-        const params = new URLSearchParams(window.location.search);
-        const dateParam = params.get("date");
-        if (!dateParam) return new Date();
+      const today = startOfDay(new Date());
+      const date = dateFromUrl() || today;
+      const isToday = date.getTime() === today.getTime();
+      const hex = getDailyColor(date);
 
-        const date = new Date(dateParam);
-        if (isNaN(date)) return new Date();
+      const root = document.documentElement;
+      root.style.setProperty("--day", hex);
+      root.style.setProperty("--ink", inkFor(hex));
 
-        return date;
+      document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
+      // "Today, Tuesday 17 November 2026" or "Monday 16 November 2026"
+      const longDate =
+        date.toLocaleDateString("en-GB", { weekday: "long" }) +
+        " " +
+        date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+      document.querySelector("[data-label]").textContent = isToday ? "Today, " + longDate : longDate;
+      document.title = hex + " · Daily Color";
+
+      document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
+      document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
+
+      // The next fortnight, from today
+      const strip = document.querySelector("[data-strip]");
+      for (let i = 0; i < 14; i++) {
+        const day = addDays(today, i);
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = linkTo(day);
+        a.style.background = getDailyColor(day);
+        a.title = getDailyColor(day);
+        a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
+        li.append(a);
+        strip.append(li);
       }
 
-      const color = getDailyColor(getDateFromUrl());
-      const colorDiv = document.getElementById("color");
-      document.body.style.backgroundColor = color;
-      colorDiv.innerText = color;
-      colorDiv.style.color = color;
-
-      const brightness = getBrightness(color.substring(1));
-      if (brightness < 128) {
-        colorDiv.classList.add("dark");
-      } else {
-        colorDiv.classList.add("light");
+      // ?date=YYYY-MM-DD, read as a day where you are (not as UTC midnight)
+      function dateFromUrl() {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(new URLSearchParams(location.search).get("date") || "");
+        return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
       }
 
-      function getBrightness(color) {
-        const rgb = color.match(/\w\w/g).map((hex) => parseInt(hex, 16));
-        return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]; // Luminosity formula
+      function startOfDay(d) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      }
+
+      function addDays(d, n) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+      }
+
+      function linkTo(d) {
+        if (d.getTime() === today.getTime()) return "./";
+        const pad = (n) => String(n).padStart(2, "0");
+        return "?date=" + d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+      }
+
+      // Black or white text, whichever is easier to read on the colour
+      function inkFor(colour) {
+        const lin = (v) => {
+          v /= 255;
+          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        const [r, g, b] = colour.match(/\w\w/g).map((h) => lin(parseInt(h, 16)));
+        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        return (lum + 0.05) / 0.05 >= 1.05 / (lum + 0.05) ? "#000000" : "#ffffff";
       }
     </script>
   </body>
