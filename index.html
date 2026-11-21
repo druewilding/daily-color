@@ -107,7 +107,7 @@
         flex-direction: column;
         align-items: center;
         gap: var(--klods-space-4);
-        width: min(100%, 36rem);
+        width: min(100%, 44rem);
       }
 
       .palette__title {
@@ -128,7 +128,7 @@
       .swatches {
         display: flex;
         gap: var(--klods-space-2);
-        width: 100%;
+        width: min(100%, 36rem);
         margin: 0;
         padding: 0;
         list-style: none;
@@ -247,7 +247,7 @@
         <h2 class="palette__title" id="palette-title">Colours that go with it</h2>
         <div class="klods-segmented" role="radiogroup" aria-labelledby="palette-title" data-schemes>
           <label class="klods-segmented__option" title="Opposite on the colour wheel">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="complementary" checked />
+            <input type="radio" class="klods-segmented__input" name="scheme" value="complementary" />
             Complementary
           </label>
           <label class="klods-segmented__option" title="Either side of the complement">
@@ -259,12 +259,16 @@
             Analogous
           </label>
           <label class="klods-segmented__option" title="A third of the way round each way">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="triadic" />
+            <input type="radio" class="klods-segmented__input" name="scheme" value="triadic" checked />
             Triadic
           </label>
           <label class="klods-segmented__option" title="A square round the colour wheel">
             <input type="radio" class="klods-segmented__input" name="scheme" value="tetradic" />
             Tetradic
+          </label>
+          <label class="klods-segmented__option" title="Black or white, whichever is easier to read on it">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="contrast" />
+            Contrast
           </label>
         </div>
         <ul class="swatches" data-swatches aria-label="Colours, pick one to copy it"></ul>
@@ -341,6 +345,11 @@ palette.triadic; // two colours
 palette.tetradic; // three colours
 
 getPalette("#3fa2c1"); // the same, for any colour</code></pre>
+      <p>And black or white text, whichever is easier to read on any colour:</p>
+      <pre><code>import { contrastColor } from "daily-color";
+
+contrastColor("#7ad2f9"); // "#000000"
+contrastColor("#1935a4"); // "#ffffff"</code></pre>
 
       <h3>On a web page, without npm</h3>
       <pre><code>&lt;script type="module"&gt;
@@ -439,7 +448,7 @@ dailycolor --help</code></pre>
       try {
         saved = localStorage.getItem(SCHEME_KEY);
       } catch {
-        // Storage blocked: start on complementary
+        // Storage blocked: start on triadic
       }
       const start = schemes.querySelector(`input[value="${saved}"]`);
       if (start) start.checked = true;

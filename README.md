@@ -38,6 +38,15 @@ palette.tetradic; // ["#e1b0ef", "#fbb18b", "#a4d595"]
 getPalette("#3fa2c1"); // the same, for any color
 ```
 
+Black or white text, whichever is easier to read on a color:
+
+```javascript
+import { contrastColor } from "daily-color";
+
+contrastColor("#7ad2f9"); // "#000000"
+contrastColor("#1935a4"); // "#ffffff"
+```
+
 Directly loading the bundled JavaScript, for static projects not using NPM:
 
 ```html
