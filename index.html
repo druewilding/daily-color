@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#888888" />
     <title>Daily Color</title>
     <meta
       name="description"
-      content="A different colour for every day of the year, the same for everyone in the world."
+      content="A different colour for every day of the year, the same for everyone in the world, and the colours that go with it."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,68 +15,55 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@600&display=swap"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/klods-css@2.2.0/dist/klods.min.css" />
     <style>
+      /* Anything outside a layer beats klods' layers, so these only need to be
+         as specific as they mean to be. */
       :root {
         --day: #888888;
         --ink: #000000;
-        --bg: #fbfaf9;
-        --surface: #f1efed;
-        --fg: #1f1d1c;
-        --muted: #5f5b58;
-        --border: #dfdbd7;
-        --link: #1f1d1c;
-        color-scheme: light;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #161514;
-          --surface: #211f1e;
-          --fg: #f1efed;
-          --muted: #b3aeaa;
-          --border: #3a3735;
-          --link: #f1efed;
-          color-scheme: dark;
-        }
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
+        --klods-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+        --klods-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        --klods-color-link: var(--klods-color-fg);
+        --display: "Bricolage Grotesque", Inter, sans-serif;
       }
 
       body {
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
         font-size: 1.05rem;
         line-height: 1.6;
-        color: var(--fg);
-        background: var(--bg);
       }
 
       a {
-        color: var(--link);
         text-underline-offset: 0.2em;
       }
 
       code,
       pre {
-        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
         font-variant-ligatures: none;
       }
 
-      /* ── Today's colour, filling the screen ── */
+      /* ── Today's colour, filling the screen ──
+         Inside it, klods' own tokens are the day's colour and black or white,
+         so the buttons and the segmented control wear them too. */
       .hero {
+        --klods-color-fg: var(--ink);
+        --klods-color-accent: var(--ink);
+        --klods-color-accent-fg: var(--day);
+        --klods-color-border: color-mix(in srgb, var(--ink) 40%, transparent);
+        --klods-color-surface-2: color-mix(in srgb, var(--ink) 12%, transparent);
+        --klods-button-fg: var(--ink);
+        --klods-button-bg: transparent;
+        --klods-button-border: var(--ink);
+        --klods-button-radius: var(--klods-radius-pill);
+
         position: relative;
-        display: grid;
-        place-items: center;
-        align-content: center;
-        gap: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--klods-space-5);
         min-height: 100svh;
-        padding: 2rem 16px 5rem;
+        padding: var(--klods-space-7) var(--klods-gutter) var(--klods-space-8);
         color: var(--ink);
         background: var(--day);
         text-align: center;
@@ -83,47 +71,24 @@
 
       .hero__label {
         margin: 0;
+        font-size: var(--klods-font-size-sm);
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        font-size: 0.85rem;
       }
 
       .hero__hex {
-        margin: 0;
-        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        margin: calc(var(--klods-space-5) * -1) 0 0;
+        font-family: var(--klods-font-mono);
         font-size: clamp(3rem, 15vw, 8rem);
         font-weight: 600;
-        line-height: 1;
+        line-height: 1.1;
         letter-spacing: -0.02em;
-      }
-
-      .hero__nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.6rem;
-        margin-top: 0.75rem;
-      }
-
-      .hero__nav a {
-        padding: 0.4rem 1rem;
-        color: inherit;
-        font-weight: 600;
-        text-decoration: none;
-        border: 2px solid currentColor;
-        border-radius: 999px;
-      }
-
-      .hero__nav a:hover {
-        color: var(--day);
-        background: var(--ink);
-        border-color: var(--ink);
       }
 
       .hero__more {
         position: absolute;
-        bottom: 1.5rem;
+        bottom: var(--klods-space-5);
         left: 50%;
         transform: translateX(-50%);
         color: inherit;
@@ -136,158 +101,118 @@
         content: " ↓";
       }
 
-      /* ── The colours that go with it ── */
+      /* ── The colours that go with it, on the day's colour ── */
       .palette {
-        max-width: 64rem;
-        margin: 0 auto;
-        padding: 4rem 16px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--klods-space-4);
+        width: min(100%, 36rem);
       }
 
-      .palette__intro {
-        max-width: 44rem;
-        margin: 0 auto 2rem;
+      .palette__title {
+        margin: 0;
+        font-family: var(--display);
+        font-size: var(--klods-font-size-lg);
+        font-weight: 700;
       }
 
-      .palette__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
-        gap: 1rem;
+      .palette .klods-segmented {
+        justify-content: center;
+      }
+
+      .palette .klods-segmented__option {
+        font-weight: 600;
+      }
+
+      .swatches {
+        display: flex;
+        gap: var(--klods-space-2);
+        width: 100%;
         margin: 0;
         padding: 0;
         list-style: none;
       }
 
-      .scheme {
-        padding: 1rem;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-      }
-
-      .scheme h3 {
-        margin: 0;
-      }
-
-      .scheme p {
-        margin: 0.15rem 0 0.85rem;
-        font-size: 0.9rem;
-        color: var(--muted);
-      }
-
-      .swatches {
-        display: flex;
-        gap: 4px;
+      .swatches li {
+        flex: 1;
+        min-width: 0;
       }
 
       .swatch {
-        flex: 1;
-        min-width: 0;
-        min-height: 5.5rem;
-        padding: 0.5rem 0.25rem;
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        font:
-          600 0.8rem "JetBrains Mono",
-          ui-monospace,
-          Menlo,
-          monospace;
+        width: 100%;
+        min-height: 6.5rem;
+        padding: var(--klods-space-2) var(--klods-space-1);
+        font: 600 0.8rem var(--klods-font-mono);
         color: var(--on);
         background: var(--swatch);
-        border: 0;
-        border-radius: 6px;
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
+        border: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
+        border-radius: var(--klods-radius-md);
         cursor: pointer;
+        transition: transform var(--klods-transition);
       }
 
-      .swatch:first-child {
-        flex: 1.4;
+      .swatch:hover {
+        transform: translateY(-2px);
       }
 
       .swatch:focus-visible {
-        outline: 3px solid var(--fg);
+        outline: 3px solid var(--ink);
         outline-offset: 2px;
       }
 
-      .contrast-sample {
-        display: grid;
-        place-items: center;
-        min-height: 5.5rem;
-        padding: 0.5rem;
-        font-family: "Bricolage Grotesque", Inter, sans-serif;
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: var(--ink);
-        background: var(--day);
-        border-radius: 6px;
-      }
-
       .palette__note {
-        margin: 1rem 0 0;
-        font-size: 0.9rem;
-        color: var(--muted);
-        text-align: center;
+        min-height: 1.6em;
+        margin: calc(var(--klods-space-2) * -1) 0 0;
+        font-size: var(--klods-font-size-sm);
       }
 
       /* ── About ── */
-      main {
-        max-width: 44rem;
-        margin: 0 auto;
-        padding: 4rem 16px 3rem;
+      main h2,
+      main h3 {
+        font-family: var(--display);
       }
 
-      h2,
-      h3 {
-        font-family: "Bricolage Grotesque", Inter, sans-serif;
-        line-height: 1.15;
-      }
-
-      h2 {
-        margin: 3.5rem 0 1rem;
+      main h2 {
+        margin-block-start: var(--klods-space-7);
         font-size: clamp(1.7rem, 5vw, 2.2rem);
         font-weight: 800;
       }
 
-      h2:first-child {
-        margin-top: 0;
+      main h2:first-child {
+        margin-block-start: 0;
       }
 
-      h3 {
-        margin: 2rem 0 0.5rem;
+      main h3 {
+        margin-block-start: var(--klods-space-6);
         font-size: 1.2rem;
-        font-weight: 700;
       }
 
-      p,
-      ul {
-        margin: 0 0 1rem;
+      main h2 + :not(h3),
+      main h3 + * {
+        margin-block-start: var(--klods-space-2);
       }
 
-      pre {
-        margin: 0 0 1rem;
-        padding: 1rem 1.15rem;
-        overflow-x: auto;
+      main h2 + h3 {
+        margin-block-start: var(--klods-space-4);
+      }
+
+      /* Code scrolls sideways on a phone rather than wrapping mid-line */
+      .klods-prose pre {
+        white-space: pre;
         font-size: 0.85rem;
-        line-height: 1.6;
-        background: var(--surface);
-        border: 1px solid var(--border);
+        border: 1px solid var(--klods-color-border);
         border-left: 6px solid var(--day);
-        border-radius: 8px;
-      }
-
-      :not(pre) > code {
-        padding: 0.1em 0.35em;
-        font-size: 0.88em;
-        background: var(--surface);
-        border-radius: 4px;
       }
 
       /* A little strip of the next fortnight's colours */
       .strip {
         display: grid;
         grid-template-columns: repeat(14, 1fr);
-        gap: 4px;
-        margin: 1.5rem 0 0.5rem;
+        gap: var(--klods-space-1);
         padding: 0;
         list-style: none;
       }
@@ -295,60 +220,65 @@
       .strip a {
         display: block;
         aspect-ratio: 1;
-        border-radius: 4px;
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
+        border-radius: var(--klods-radius-sm);
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--klods-color-fg) 12%, transparent);
       }
 
-      .strip__caption {
-        font-size: 0.9rem;
-        color: var(--muted);
+      .klods-prose .strip + p {
+        margin-block-start: var(--klods-space-2);
       }
 
-      footer {
-        max-width: 44rem;
-        margin: 0 auto;
-        padding: 2rem 16px 3rem;
-        font-size: 0.9rem;
-        color: var(--muted);
-        border-top: 1px solid var(--border);
+      .klods-footer {
+        font-size: var(--klods-font-size-sm);
       }
 
-      footer a {
+      .klods-footer a {
         color: inherit;
       }
     </style>
   </head>
 
-  <body>
+  <body class="klods-page">
     <header class="hero">
       <p class="hero__label" data-label>Today</p>
       <p class="hero__hex" data-hex>#000000</p>
-      <nav class="hero__nav" aria-label="Other days">
-        <a data-prev href="./">← Previous day</a>
-        <a data-next href="./">Next day →</a>
+
+      <section class="palette" aria-labelledby="palette-title">
+        <h2 class="palette__title" id="palette-title">Colours that go with it</h2>
+        <div class="klods-segmented" role="radiogroup" aria-labelledby="palette-title" data-schemes>
+          <label class="klods-segmented__option" title="Opposite on the colour wheel">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="complementary" checked />
+            Complementary
+          </label>
+          <label class="klods-segmented__option" title="Either side of the complement">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="splitComplementary" />
+            Split
+          </label>
+          <label class="klods-segmented__option" title="Next door on the colour wheel">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="analogous" />
+            Analogous
+          </label>
+          <label class="klods-segmented__option" title="A third of the way round each way">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="triadic" />
+            Triadic
+          </label>
+          <label class="klods-segmented__option" title="A square round the colour wheel">
+            <input type="radio" class="klods-segmented__input" name="scheme" value="tetradic" />
+            Tetradic
+          </label>
+        </div>
+        <ul class="swatches" data-swatches aria-label="Colours, pick one to copy it"></ul>
+        <p class="palette__note" data-note role="status"></p>
+      </section>
+
+      <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
+        <a class="klods-button" data-prev href="./">← Previous day</a>
+        <a class="klods-button" data-next href="./">Next day →</a>
       </nav>
       <a class="hero__more" href="#about">What is this?</a>
     </header>
 
-    <section class="palette" aria-labelledby="palette-title">
-      <div class="palette__intro">
-        <h2 id="palette-title">Colours that go with it</h2>
-        <p>
-          The day's colour, turned round the colour wheel. Each one keeps the same lightness and strength, so they sit
-          nicely together. Pick a colour to copy its hex code.
-        </p>
-      </div>
-      <ul class="palette__grid" data-palette>
-        <li class="scheme">
-          <h3>Contrast</h3>
-          <p>Black or white, whichever is easier to read on it</p>
-          <div class="contrast-sample" data-contrast>Hello!</div>
-        </li>
-      </ul>
-      <p class="palette__note" data-copied role="status"></p>
-    </section>
-
-    <main id="about">
+    <main id="about" class="klods-content klods-content--narrow klods-prose">
       <h2>A colour for every day</h2>
       <p>
         Daily Color turns a date into a colour. Every day has its own hex code, and because it's worked out from the
@@ -362,7 +292,7 @@
       </p>
 
       <ol class="strip" data-strip aria-label="The next fortnight's colours"></ol>
-      <p class="strip__caption">The next fortnight. Pick one to see it here.</p>
+      <p class="klods-muted">The next fortnight. Pick one to see it here.</p>
 
       <h2>How it works</h2>
       <p>
@@ -374,6 +304,18 @@
       <p>
         It uses the date where you are, so the colour changes at your own midnight. Run it twice on the same day and
         you'll always get the same answer.
+      </p>
+
+      <h3>The colours that go with it</h3>
+      <p>
+        The other colours are the day's colour turned round the colour wheel: halfway round for its complement, a third
+        of the way for a triad, and so on. The turning happens in OKLCH, a way of describing colour that's closer to how
+        we see it than RGB is, so every colour keeps the same lightness and strength and they sit nicely together. On a
+        grey day they're all the same grey, because grey has no hue to turn.
+      </p>
+      <p>
+        The text on the colour is black or white, whichever is easier to read. That's in the palette too, as
+        <code>contrast</code>.
       </p>
 
       <h2>Use it</h2>
@@ -430,27 +372,31 @@ dailycolor --help</code></pre>
       <ul>
         <li>A website or app that changes colour every day</li>
         <li>A colour of the day for a team chat, a dashboard or a desktop background</li>
-        <li>A daily drawing or knitting challenge</li>
+        <li>A daily drawing or knitting challenge, with a palette to go with it</li>
       </ul>
     </main>
 
-    <footer>
-      Made by <a href="https://www.druewilding.com/">Drue Wilding</a>. The code is on
-      <a href="https://github.com/druewilding/daily-color">GitHub</a> and the package is on
-      <a href="https://www.npmjs.com/package/daily-color">npm</a>.
+    <footer class="klods-footer">
+      <p class="klods-content klods-content--narrow">
+        Made by <a href="https://www.druewilding.com/">Drue Wilding</a>. The code is on
+        <a href="https://github.com/druewilding/daily-color">GitHub</a> and the package is on
+        <a href="https://www.npmjs.com/package/daily-color">npm</a>.
+      </p>
     </footer>
 
     <script type="module">
-      import { contrastColor, getDailyColor, getDailyPalette } from "./dist/daily-color.js";
+      import { contrastColor, getDailyPalette } from "./dist/daily-color.js";
 
       const today = startOfDay(new Date());
       const date = dateFromUrl() || today;
       const isToday = date.getTime() === today.getTime();
-      const hex = getDailyColor(date);
+      const palette = getDailyPalette(date);
+      const hex = palette.color;
 
       const root = document.documentElement;
       root.style.setProperty("--day", hex);
-      root.style.setProperty("--ink", contrastColor(hex));
+      root.style.setProperty("--ink", palette.contrast);
+      document.querySelector('meta[name="theme-color"]').content = hex;
 
       document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
       // "Today, Tuesday 17 November 2026" or "Monday 16 November 2026"
@@ -464,57 +410,73 @@ dailycolor --help</code></pre>
       document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
       document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
 
-      // The next fortnight, from today
-      const strip = document.querySelector("[data-strip]");
-      for (let i = 0; i < 14; i++) {
-        const day = addDays(today, i);
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = linkTo(day);
-        a.style.background = getDailyColor(day);
-        a.title = getDailyColor(day);
-        a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
-        li.append(a);
-        strip.append(li);
+      // ── The colours that go with it ──
+      // The scheme you picked is remembered, so the next day opens on it too
+      const SCHEME_KEY = "daily-color-scheme";
+      const swatches = document.querySelector("[data-swatches]");
+      const note = document.querySelector("[data-note]");
+      const schemes = document.querySelector("[data-schemes]");
+
+      function showScheme(key) {
+        swatches.replaceChildren(
+          ...[palette.color, ...[palette[key]].flat()].map((colour, i) => {
+            const li = document.createElement("li");
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "swatch";
+            button.textContent = colour;
+            button.title = i === 0 ? "The day's colour" : "Copy " + colour;
+            button.style.setProperty("--swatch", colour);
+            button.style.setProperty("--on", contrastColor(colour));
+            button.addEventListener("click", () => copy(colour));
+            li.append(button);
+            return li;
+          })
+        );
       }
 
-      // The colours that go with it, after the contrast card
-      const SCHEMES = [
-        ["complementary", "Complementary", "Opposite on the colour wheel"],
-        ["splitComplementary", "Split complementary", "Either side of the complement"],
-        ["analogous", "Analogous", "Next door on the colour wheel"],
-        ["triadic", "Triadic", "A third of the way round each way"],
-        ["tetradic", "Tetradic", "A square round the colour wheel"],
-      ];
-      const palette = getDailyPalette(date);
-      const list = document.querySelector("[data-palette]");
-      document.querySelector("[data-contrast]").textContent =
-        palette.contrast === "#000000" ? "Black text" : "White text";
-      for (const [key, name, about] of SCHEMES) {
-        const li = document.createElement("li");
-        li.className = "scheme";
-        li.innerHTML = `<h3>${name}</h3><p>${about}</p><div class="swatches"></div>`;
-        for (const colour of [palette.color, ...[palette[key]].flat()]) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "swatch";
-          button.textContent = colour;
-          button.style.setProperty("--swatch", colour);
-          button.style.setProperty("--on", contrastColor(colour));
-          button.addEventListener("click", () => copy(colour));
-          li.querySelector(".swatches").append(button);
+      let saved = null;
+      try {
+        saved = localStorage.getItem(SCHEME_KEY);
+      } catch {
+        // Storage blocked: start on complementary
+      }
+      const start = schemes.querySelector(`input[value="${saved}"]`);
+      if (start) start.checked = true;
+      showScheme(schemes.querySelector("input:checked").value);
+
+      schemes.addEventListener("change", (event) => {
+        showScheme(event.target.value);
+        note.textContent = "";
+        try {
+          localStorage.setItem(SCHEME_KEY, event.target.value);
+        } catch {
+          // Storage blocked: it just won't be remembered
         }
-        list.append(li);
-      }
+      });
 
-      const copied = document.querySelector("[data-copied]");
       async function copy(colour) {
         try {
           await navigator.clipboard.writeText(colour);
-          copied.textContent = `Copied ${colour}`;
+          note.textContent = `Copied ${colour}`;
         } catch {
-          copied.textContent = colour;
+          note.textContent = colour;
         }
+      }
+
+      // ── The next fortnight, from today ──
+      const strip = document.querySelector("[data-strip]");
+      for (let i = 0; i < 14; i++) {
+        const day = addDays(today, i);
+        const colour = getDailyPalette(day).color;
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = linkTo(day);
+        a.style.background = colour;
+        a.title = colour;
+        a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
+        li.append(a);
+        strip.append(li);
       }
 
       // ?date=YYYY-MM-DD, read as a day where you are (not as UTC midnight)

@@ -11,14 +11,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@600&display=swap"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/klods-css@2.2.0/dist/klods.min.css" />
     <style>
-      * {
-        box-sizing: border-box;
+      :root {
+        --klods-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+        --klods-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
       }
 
       body {
-        margin: 0;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
         background-color: #000;
       }
 
@@ -52,7 +52,7 @@
         padding: 0.6rem 0.75rem;
         color: var(--ink);
         background: var(--day);
-        border-radius: 10px;
+        border-radius: var(--klods-radius-md);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6) inset;
         text-decoration: none;
       }
@@ -78,7 +78,7 @@
       }
 
       .box__hex {
-        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        font-family: var(--klods-font-mono);
         font-size: clamp(0.85rem, 1.6vw, 1.15rem);
         font-weight: 600;
       }
@@ -93,7 +93,7 @@
   <body>
     <ol class="grid" id="grid" aria-label="The next 36 days"></ol>
     <script type="module">
-      import { getDailyColor } from "./dist/daily-color.js";
+      import { contrastColor, getDailyColor } from "./dist/daily-color.js";
 
       const grid = document.getElementById("grid");
       const now = new Date();
@@ -110,7 +110,7 @@
         box.className = "box" + (i === 0 ? " box--today" : "");
         box.href = i === 0 ? "./" : "./?date=" + isoDate(date);
         box.style.setProperty("--day", hex);
-        box.style.setProperty("--ink", inkFor(hex));
+        box.style.setProperty("--ink", contrastColor(hex));
         box.innerHTML =
           `<span class="box__date"><span class="box__weekday">${weekday}</span>${day}</span>` +
           `<span class="box__hex">${hex}</span>`;
@@ -121,17 +121,6 @@
       function isoDate(d) {
         const pad = (n) => String(n).padStart(2, "0");
         return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-      }
-
-      // Black or white text, whichever is easier to read on the colour
-      function inkFor(colour) {
-        const lin = (v) => {
-          v /= 255;
-          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-        };
-        const [r, g, b] = colour.match(/\w\w/g).map((h) => lin(parseInt(h, 16)));
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return (lum + 0.05) / 0.05 >= 1.05 / (lum + 0.05) ? "#000000" : "#ffffff";
       }
     </script>
   </body>
