@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -96,14 +96,17 @@
       import { contrastColor, getDailyColor } from "./dist/daily-color.js";
 
       const grid = document.getElementById("grid");
+      // Dates in the visitor's own kind of English (21 November or November 21),
+      // or plain "en" when their browser prefers another language
+      const locale = navigator.languages.find((l) => /^en\b/i.test(l)) || "en";
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
       for (let i = 0; i < 36; i++) {
         const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
         const hex = getDailyColor(date);
-        const weekday = i === 0 ? "Today" : date.toLocaleDateString("en-GB", { weekday: "long" });
-        const day = date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+        const weekday = i === 0 ? "Today" : date.toLocaleDateString(locale, { weekday: "long" });
+        const day = date.toLocaleDateString(locale, { day: "numeric", month: "short" });
 
         const li = document.createElement("li");
         const box = document.createElement("a");

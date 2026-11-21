@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -410,11 +410,16 @@ dailycolor --help</code></pre>
       document.querySelector('meta[name="theme-color"]').content = hex;
 
       document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
-      // "Today, Tuesday 17 November 2026" or "Monday 16 November 2026"
-      const longDate =
-        date.toLocaleDateString("en-GB", { weekday: "long" }) +
-        " " +
-        date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+      // Dates in the visitor's own kind of English (21 November or November 21),
+      // or plain "en" when their browser prefers another language
+      const locale = navigator.languages.find((l) => /^en\b/i.test(l)) || "en";
+      // "Today, Tuesday 17 November 2026" or "Today, Tuesday, November 17, 2026"
+      const longDate = date.toLocaleDateString(locale, {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
       document.querySelector("[data-label]").textContent = isToday ? "Today, " + longDate : longDate;
       document.title = hex + " · Daily Color";
 
@@ -485,7 +490,7 @@ dailycolor --help</code></pre>
         a.href = linkTo(day);
         a.style.background = color;
         a.title = color;
-        a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
+        a.setAttribute("aria-label", day.toLocaleDateString(locale, { day: "numeric", month: "long" }));
         li.append(a);
         strip.append(li);
       }
