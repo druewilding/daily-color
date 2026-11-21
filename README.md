@@ -21,6 +21,23 @@ console.log("Today's color is:", getDailyColor());
 console.log("Another day's color is:", getDailyColor(new Date("2024-11-09")));
 ```
 
+Colors that go with the day's color, worked out in OKLCH so they keep its lightness and strength:
+
+```javascript
+import { getDailyPalette, getPalette } from "daily-color";
+
+const palette = getDailyPalette(); // or getDailyPalette(new Date("2024-11-09"))
+palette.color; // the day's color, e.g. "#7ad2f9"
+palette.contrast; // "#000000" or "#ffffff", whichever reads better on it
+palette.complementary; // "#fbb18b"
+palette.splitComplementary; // ["#ffabac", "#e9bd78"]
+palette.analogous; // ["#6bd9dd", "#a2c7ff"]
+palette.triadic; // ["#f7aad0", "#cacb7c"]
+palette.tetradic; // ["#e1b0ef", "#fbb18b", "#a4d595"]
+
+getPalette("#3fa2c1"); // the same, for any color
+```
+
 Directly loading the bundled JavaScript, for static projects not using NPM:
 
 ```html
@@ -35,7 +52,12 @@ Directly loading the bundled JavaScript, for static projects not using NPM:
 Using the CLI:
 
 ```bash
-dailycolor
+dailycolor                        # today's color
+dailycolor complementary          # the color opposite it
+dailycolor triadic analogous      # several, labelled
+dailycolor all --date 2027-01-01  # everything, for another day
+dailycolor --help                 # all the options
+dailycolor --version
 ```
 
 Just want to see today's color?

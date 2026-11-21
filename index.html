@@ -136,6 +136,99 @@
         content: " ↓";
       }
 
+      /* ── The colours that go with it ── */
+      .palette {
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 4rem 16px 0;
+      }
+
+      .palette__intro {
+        max-width: 44rem;
+        margin: 0 auto 2rem;
+      }
+
+      .palette__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .scheme {
+        padding: 1rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .scheme h3 {
+        margin: 0;
+      }
+
+      .scheme p {
+        margin: 0.15rem 0 0.85rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .swatches {
+        display: flex;
+        gap: 4px;
+      }
+
+      .swatch {
+        flex: 1;
+        min-width: 0;
+        min-height: 5.5rem;
+        padding: 0.5rem 0.25rem;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        font:
+          600 0.8rem "JetBrains Mono",
+          ui-monospace,
+          Menlo,
+          monospace;
+        color: var(--on);
+        background: var(--swatch);
+        border: 0;
+        border-radius: 6px;
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
+        cursor: pointer;
+      }
+
+      .swatch:first-child {
+        flex: 1.4;
+      }
+
+      .swatch:focus-visible {
+        outline: 3px solid var(--fg);
+        outline-offset: 2px;
+      }
+
+      .contrast-sample {
+        display: grid;
+        place-items: center;
+        min-height: 5.5rem;
+        padding: 0.5rem;
+        font-family: "Bricolage Grotesque", Inter, sans-serif;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--ink);
+        background: var(--day);
+        border-radius: 6px;
+      }
+
+      .palette__note {
+        margin: 1rem 0 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+        text-align: center;
+      }
+
       /* ── About ── */
       main {
         max-width: 44rem;
@@ -237,6 +330,24 @@
       <a class="hero__more" href="#about">What is this?</a>
     </header>
 
+    <section class="palette" aria-labelledby="palette-title">
+      <div class="palette__intro">
+        <h2 id="palette-title">Colours that go with it</h2>
+        <p>
+          The day's colour, turned round the colour wheel. Each one keeps the same lightness and strength, so they sit
+          nicely together. Pick a colour to copy its hex code.
+        </p>
+      </div>
+      <ul class="palette__grid" data-palette>
+        <li class="scheme">
+          <h3>Contrast</h3>
+          <p>Black or white, whichever is easier to read on it</p>
+          <div class="contrast-sample" data-contrast>Hello!</div>
+        </li>
+      </ul>
+      <p class="palette__note" data-copied role="status"></p>
+    </section>
+
     <main id="about">
       <h2>A colour for every day</h2>
       <p>
@@ -275,6 +386,19 @@
 
 getDailyColor(); // today, e.g. "<span data-hex>#000000</span>"
 getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
+      <p>Or get the colours that go with it too:</p>
+      <pre><code>import { getDailyPalette, getPalette } from "daily-color";
+
+const palette = getDailyPalette(); // or getDailyPalette(new Date(2027, 0, 1))
+palette.color; // the day's colour
+palette.contrast; // "#000000" or "#ffffff", whichever reads better on it
+palette.complementary; // one colour
+palette.splitComplementary; // two colours
+palette.analogous; // two colours
+palette.triadic; // two colours
+palette.tetradic; // three colours
+
+getPalette("#3fa2c1"); // the same, for any colour</code></pre>
 
       <h3>On a web page, without npm</h3>
       <pre><code>&lt;script type="module"&gt;
@@ -287,8 +411,13 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
       <pre><code>npx daily-color</code></pre>
       <p>
         It prints today's colour. Install it globally with <code>npm install -g daily-color</code> to get a
-        <code>dailycolor</code> command.
+        <code>dailycolor</code> command. Name the colours you want to see the ones that go with it, and add a date to
+        see another day:
       </p>
+      <pre><code>dailycolor complementary
+dailycolor triadic analogous
+dailycolor all --date 2027-01-01
+dailycolor --help</code></pre>
 
       <h3>On this page</h3>
       <p>
@@ -312,7 +441,7 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
     </footer>
 
     <script type="module">
-      import { getDailyColor } from "./dist/daily-color.js";
+      import { contrastColor, getDailyColor, getDailyPalette } from "./dist/daily-color.js";
 
       const today = startOfDay(new Date());
       const date = dateFromUrl() || today;
@@ -321,7 +450,7 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
 
       const root = document.documentElement;
       root.style.setProperty("--day", hex);
-      root.style.setProperty("--ink", inkFor(hex));
+      root.style.setProperty("--ink", contrastColor(hex));
 
       document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
       // "Today, Tuesday 17 November 2026" or "Monday 16 November 2026"
@@ -349,6 +478,45 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
         strip.append(li);
       }
 
+      // The colours that go with it, after the contrast card
+      const SCHEMES = [
+        ["complementary", "Complementary", "Opposite on the colour wheel"],
+        ["splitComplementary", "Split complementary", "Either side of the complement"],
+        ["analogous", "Analogous", "Next door on the colour wheel"],
+        ["triadic", "Triadic", "A third of the way round each way"],
+        ["tetradic", "Tetradic", "A square round the colour wheel"],
+      ];
+      const palette = getDailyPalette(date);
+      const list = document.querySelector("[data-palette]");
+      document.querySelector("[data-contrast]").textContent =
+        palette.contrast === "#000000" ? "Black text" : "White text";
+      for (const [key, name, about] of SCHEMES) {
+        const li = document.createElement("li");
+        li.className = "scheme";
+        li.innerHTML = `<h3>${name}</h3><p>${about}</p><div class="swatches"></div>`;
+        for (const colour of [palette.color, ...[palette[key]].flat()]) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "swatch";
+          button.textContent = colour;
+          button.style.setProperty("--swatch", colour);
+          button.style.setProperty("--on", contrastColor(colour));
+          button.addEventListener("click", () => copy(colour));
+          li.querySelector(".swatches").append(button);
+        }
+        list.append(li);
+      }
+
+      const copied = document.querySelector("[data-copied]");
+      async function copy(colour) {
+        try {
+          await navigator.clipboard.writeText(colour);
+          copied.textContent = `Copied ${colour}`;
+        } catch {
+          copied.textContent = colour;
+        }
+      }
+
       // ?date=YYYY-MM-DD, read as a day where you are (not as UTC midnight)
       function dateFromUrl() {
         const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(new URLSearchParams(location.search).get("date") || "");
@@ -367,17 +535,6 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
         if (d.getTime() === today.getTime()) return "./";
         const pad = (n) => String(n).padStart(2, "0");
         return "?date=" + d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-      }
-
-      // Black or white text, whichever is easier to read on the colour
-      function inkFor(colour) {
-        const lin = (v) => {
-          v /= 255;
-          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-        };
-        const [r, g, b] = colour.match(/\w\w/g).map((h) => lin(parseInt(h, 16)));
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return (lum + 0.05) / 0.05 >= 1.05 / (lum + 0.05) ? "#000000" : "#ffffff";
       }
     </script>
   </body>

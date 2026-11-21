@@ -17,7 +17,8 @@
   "author": "Drue Wilding",
   "files": [
     "index.d.ts",
-    "index.js"
+    "index.js",
+    "palette.js"
   ],
   "main": "index.js",
   "bin": {
@@ -34,7 +35,7 @@
     "lint": "eslint --fix",
     "lint:check": "eslint",
     "package:lint": "npx npm-package-json-lint .",
-    "test": "node test/index.js",
+    "test": "node --test test/",
     "webpack": "npx webpack"
   },
   "devDependencies": {

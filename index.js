@@ -1,3 +1,7 @@
+import { getPalette } from "./palette.js";
+
+export { contrastColor, getPalette } from "./palette.js";
+
 export function getDailyColor(date = new Date()) {
   const hash = getSimpleHash(date);
 
@@ -6,6 +10,14 @@ export function getDailyColor(date = new Date()) {
   const b = hash & 0xff; // Blue
 
   return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+/**
+ * The day's colour and the colours that go with it.
+ * @param {Date} [date] Defaults to today
+ */
+export function getDailyPalette(date = new Date()) {
+  return getPalette(getDailyColor(date));
 }
 
 function getSimpleHash(date) {
