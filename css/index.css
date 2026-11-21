@@ -35,17 +35,26 @@ pre {
   --klods-button-border: var(--ink);
   --klods-button-radius: var(--klods-radius-pill);
 
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--klods-space-5);
+  gap: var(--klods-space-7);
   min-height: 100svh;
-  padding: var(--klods-space-7) var(--klods-gutter) var(--klods-space-8);
+  padding: var(--klods-space-7) var(--klods-gutter) var(--klods-space-5);
   color: var(--ink);
   background: var(--day);
   text-align: center;
+}
+
+/* Spare height is shared out evenly: above the day, between the day and its
+   palettes, and between the palettes and "What is this?" at the bottom. On a
+   short screen the gaps are just the hero's own gap. */
+.hero__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--klods-space-5);
+  margin-block: auto;
 }
 
 .hero__label {
@@ -66,10 +75,6 @@ pre {
 }
 
 .hero__more {
-  position: absolute;
-  bottom: var(--klods-space-5);
-  left: 50%;
-  transform: translateX(-50%);
   color: inherit;
   font-weight: 600;
   text-decoration: none;
@@ -87,7 +92,8 @@ pre {
   align-items: center;
   gap: var(--klods-space-4);
   width: min(100%, 44rem);
-  margin-block-start: var(--klods-space-4);
+  margin-block-end: auto;
+  position: relative;
 }
 
 .palette__title {
@@ -173,9 +179,13 @@ pre {
   outline-offset: 2px;
 }
 
+/* "Copied #…" sits just under the palettes without taking up space, so the
+   gaps above and below the palettes stay even */
 .palette__note {
-  min-height: 1.6em;
-  margin: calc(var(--klods-space-2) * -1) 0 0;
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  margin: var(--klods-space-2) 0 0;
   font-size: var(--klods-font-size-sm);
 }
 

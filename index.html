@@ -62,13 +62,15 @@
 
   <body class="klods-page">
     <header class="hero">
-      <p class="hero__label" data-label>Today</p>
-      <p class="hero__hex" data-hex>#000000</p>
+      <div class="hero__day">
+        <p class="hero__label" data-label>Today</p>
+        <p class="hero__hex" data-hex>#000000</p>
 
-      <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
-        <a class="klods-button" data-prev href="./">← Previous day</a>
-        <a class="klods-button" data-next href="./">Next day →</a>
-      </nav>
+        <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
+          <a class="klods-button" data-prev href="./">← Previous day</a>
+          <a class="klods-button" data-next href="./">Next day →</a>
+        </nav>
+      </div>
 
       <section class="palette" aria-labelledby="palette-title">
         <h2 class="palette__title" id="palette-title">Colors that go with it</h2>
