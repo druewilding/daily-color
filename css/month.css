@@ -1,0 +1,69 @@
+body {
+  background-color: #000;
+}
+
+/* Six by six, filling the screen. Phones get three across and scroll. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: calc(100svh / 6);
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 7.5rem;
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  height: calc(100% - 4px);
+  margin: 2px;
+  padding: 0.6rem 0.75rem;
+  color: var(--ink);
+  background: var(--day);
+  border-radius: var(--klods-radius-md);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6) inset;
+  text-decoration: none;
+}
+
+.box:hover,
+.box:focus-visible {
+  position: relative;
+  margin: 1px;
+  height: calc(100% - 2px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.box__date {
+  font-size: clamp(0.8rem, 1.4vw, 1rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.box__weekday {
+  display: block;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.box__hex {
+  font-family: var(--klods-font-mono);
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  font-weight: 600;
+}
+
+.box--today {
+  outline: 3px solid var(--ink);
+  outline-offset: -8px;
+}

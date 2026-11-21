@@ -58,6 +58,15 @@ Directly loading the bundled JavaScript, for static projects not using NPM:
 </script>
 ```
 
+Or as a plain script, which sets `window.DailyColor`. Plain scripts in `<head>` run before the page is drawn, so the color is there from the very first frame:
+
+```html
+<script src="https://www.druewilding.com/daily-color/dist/daily-color.umd.js"></script>
+<script>
+  document.documentElement.style.setProperty("--day", DailyColor.getDailyColor());
+</script>
+```
+
 Using the CLI:
 
 ```bash

@@ -1,0 +1,217 @@
+/* Anything outside a layer beats klods' layers, so these only need to be
+   as specific as they mean to be. */
+:root {
+  --day: #888888;
+  --ink: #000000;
+  --klods-color-link: var(--klods-color-fg);
+  --display: "Bricolage Grotesque", Inter, sans-serif;
+}
+
+body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+a {
+  text-underline-offset: 0.2em;
+}
+
+code,
+pre {
+  font-variant-ligatures: none;
+}
+
+/* ── Today's color, filling the screen ──
+   Inside it, klods' own tokens are the day's color and black or white,
+   so the buttons and the segmented control wear them too. */
+.hero {
+  --klods-color-fg: var(--ink);
+  --klods-color-accent: var(--ink);
+  --klods-color-accent-fg: var(--day);
+  --klods-color-border: color-mix(in srgb, var(--ink) 40%, transparent);
+  --klods-color-surface-2: color-mix(in srgb, var(--ink) 12%, transparent);
+  --klods-button-fg: var(--ink);
+  --klods-button-bg: transparent;
+  --klods-button-border: var(--ink);
+  --klods-button-radius: var(--klods-radius-pill);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--klods-space-5);
+  min-height: 100svh;
+  padding: var(--klods-space-7) var(--klods-gutter) var(--klods-space-8);
+  color: var(--ink);
+  background: var(--day);
+  text-align: center;
+}
+
+.hero__label {
+  margin: 0;
+  font-size: var(--klods-font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__hex {
+  margin: calc(var(--klods-space-5) * -1) 0 0;
+  font-family: var(--klods-font-mono);
+  font-size: clamp(3rem, 15vw, 8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero__more {
+  position: absolute;
+  bottom: var(--klods-space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hero__more::after {
+  content: " ↓";
+}
+
+/* ── The colors that go with it, on the day's color ── */
+.palette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--klods-space-4);
+  width: min(100%, 44rem);
+  margin-block-start: var(--klods-space-4);
+}
+
+.palette__title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--klods-font-size-lg);
+  font-weight: 700;
+}
+
+.palette .klods-segmented {
+  justify-content: center;
+}
+
+.palette .klods-segmented__option {
+  font-weight: 600;
+}
+
+.swatches {
+  display: flex;
+  gap: var(--klods-space-2);
+  width: min(100%, 36rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatches li {
+  flex: 1;
+  min-width: 0;
+}
+
+.swatch {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  min-height: 6.5rem;
+  padding: var(--klods-space-2) var(--klods-space-1);
+  font: 600 0.8rem var(--klods-font-mono);
+  color: var(--on);
+  background: var(--swatch);
+  border: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  border-radius: var(--klods-radius-md);
+  cursor: pointer;
+  transition: transform var(--klods-transition);
+}
+
+.swatch:hover {
+  transform: translateY(-2px);
+}
+
+.swatch:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.palette__note {
+  min-height: 1.6em;
+  margin: calc(var(--klods-space-2) * -1) 0 0;
+  font-size: var(--klods-font-size-sm);
+}
+
+/* ── About ── */
+main h2,
+main h3 {
+  font-family: var(--display);
+}
+
+main h2 {
+  margin-block-start: var(--klods-space-7);
+  font-size: clamp(1.7rem, 5vw, 2.2rem);
+  font-weight: 800;
+}
+
+main h2:first-child {
+  margin-block-start: 0;
+}
+
+main h3 {
+  margin-block-start: var(--klods-space-6);
+  font-size: 1.2rem;
+}
+
+main h2 + :not(h3),
+main h3 + * {
+  margin-block-start: var(--klods-space-2);
+}
+
+main h2 + h3 {
+  margin-block-start: var(--klods-space-4);
+}
+
+/* Code scrolls sideways on a phone rather than wrapping mid-line */
+.klods-prose pre {
+  white-space: pre;
+  font-size: 0.85rem;
+  border: 1px solid var(--klods-color-border);
+  border-left: 6px solid var(--day);
+}
+
+/* A little strip of the next fortnight's colors */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: var(--klods-space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.strip a {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: var(--klods-radius-sm);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--klods-color-fg) 12%, transparent);
+}
+
+.klods-prose .strip + p {
+  margin-block-start: var(--klods-space-2);
+}
+
+.klods-footer {
+  font-size: var(--klods-font-size-sm);
+}
+
+.klods-footer a {
+  color: inherit;
+}
