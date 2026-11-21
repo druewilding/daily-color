@@ -13,6 +13,18 @@
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/klods-css@2.2.0/dist/klods.min.css" />
     <style>
+      /* Fade from one day to the next (and to and from the month). Browsers
+         without cross-page view transitions, and reduced motion, just switch. */
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+
+        ::view-transition-group(root) {
+          animation-duration: 0.4s;
+        }
+      }
+
       :root {
         --klods-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
         --klods-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -92,7 +104,8 @@
 
   <body>
     <ol class="grid" id="grid" aria-label="The next 36 days"></ol>
-    <script type="module">
+    <!-- blocking="render": no paint until the day's colors are set -->
+    <script type="module" blocking="render">
       import { contrastColor, getDailyColor } from "./dist/daily-color.js";
 
       const grid = document.getElementById("grid");

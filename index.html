@@ -19,6 +19,18 @@
     <style>
       /* Anything outside a layer beats klods' layers, so these only need to be
          as specific as they mean to be. */
+      /* Fade from one day to the next (and to and from the month). Browsers
+         without cross-page view transitions, and reduced motion, just switch. */
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+
+        ::view-transition-group(root) {
+          animation-duration: 0.4s;
+        }
+      }
+
       :root {
         --day: #888888;
         --ink: #000000;
@@ -395,7 +407,8 @@ dailycolor --help</code></pre>
       </p>
     </footer>
 
-    <script type="module">
+    <!-- blocking="render": no paint until the day's colors are set -->
+    <script type="module" blocking="render">
       import { contrastColor, getDailyPalette } from "./dist/daily-color.js";
 
       const today = startOfDay(new Date());
