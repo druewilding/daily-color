@@ -23,7 +23,7 @@ pre {
 
 /* ── Today's color, filling the screen ──
    Inside it, klods' own tokens are the day's color and black or white,
-   so the buttons and the segmented control wear them too. */
+   so the buttons wear them too. */
 .hero {
   --klods-color-fg: var(--ink);
   --klods-color-accent: var(--ink);
@@ -97,18 +97,47 @@ pre {
   font-weight: 700;
 }
 
-.palette .klods-segmented {
-  justify-content: center;
+/* Every palette at once: three across, two on a phone, one on a tiny one */
+.schemes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--klods-space-4) var(--klods-space-3);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.palette .klods-segmented__option {
+@media (max-width: 36rem) {
+  .schemes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* The smallest phones: one each, so four hex codes still fit in a row */
+@media (max-width: 22rem) {
+  .schemes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scheme {
+  display: flex;
+  flex-direction: column;
+  gap: var(--klods-space-1);
+  min-width: 0;
+}
+
+.scheme__name {
+  margin: 0;
+  font-size: var(--klods-font-size-sm);
   font-weight: 600;
+  text-align: start;
 }
 
 .swatches {
   display: flex;
-  gap: var(--klods-space-2);
-  width: min(100%, 36rem);
+  gap: var(--klods-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -124,13 +153,13 @@ pre {
   align-items: flex-end;
   justify-content: center;
   width: 100%;
-  min-height: 6.5rem;
-  padding: var(--klods-space-2) var(--klods-space-1);
-  font: 600 0.8rem var(--klods-font-mono);
+  min-height: 3.75rem;
+  padding: var(--klods-space-1) 2px;
+  font: 600 0.7rem var(--klods-font-mono);
   color: var(--on);
   background: var(--swatch);
   border: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
-  border-radius: var(--klods-radius-md);
+  border-radius: var(--klods-radius-sm);
   cursor: pointer;
   transition: transform var(--klods-transition);
 }

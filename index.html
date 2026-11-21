@@ -72,33 +72,7 @@
 
       <section class="palette" aria-labelledby="palette-title">
         <h2 class="palette__title" id="palette-title">Colors that go with it</h2>
-        <div class="klods-segmented" role="radiogroup" aria-labelledby="palette-title" data-schemes>
-          <label class="klods-segmented__option" title="Opposite on the color wheel">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="complementary" />
-            Complementary
-          </label>
-          <label class="klods-segmented__option" title="Either side of the complement">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="splitComplementary" />
-            Split
-          </label>
-          <label class="klods-segmented__option" title="Next door on the color wheel">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="analogous" />
-            Analogous
-          </label>
-          <label class="klods-segmented__option" title="A third of the way round each way">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="triadic" checked />
-            Triadic
-          </label>
-          <label class="klods-segmented__option" title="A square round the color wheel">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="tetradic" />
-            Tetradic
-          </label>
-          <label class="klods-segmented__option" title="Black or white, whichever is easier to read on it">
-            <input type="radio" class="klods-segmented__input" name="scheme" value="contrast" />
-            Contrast
-          </label>
-        </div>
-        <ul class="swatches" data-swatches aria-label="Colors, pick one to copy it"></ul>
+        <ul class="schemes" data-schemes></ul>
         <p class="palette__note" data-note role="status"></p>
       </section>
 
@@ -118,50 +92,45 @@
       document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
       document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
 
-      // ── The colors that go with it ──
-      // The scheme you picked is remembered, so the next day opens on it too
-      const SCHEME_KEY = "daily-color-scheme";
-      const swatches = document.querySelector("[data-swatches]");
+      // ── The colors that go with it, every palette at once ──
+      const SCHEMES = [
+        ["contrast", "Contrast", "Black or white, whichever is easier to read on it"],
+        ["complementary", "Complementary", "Opposite on the color wheel"],
+        ["splitComplementary", "Split complementary", "Either side of the complement"],
+        ["analogous", "Analogous", "Next door on the color wheel"],
+        ["triadic", "Triadic", "A third of the way round each way"],
+        ["tetradic", "Tetradic", "A square round the color wheel"],
+      ];
       const note = document.querySelector("[data-note]");
-      const schemes = document.querySelector("[data-schemes]");
 
-      function showScheme(key) {
-        swatches.replaceChildren(
-          ...[palette.color, ...[palette[key]].flat()].map((color, i) => {
+      document.querySelector("[data-schemes]").append(
+        ...SCHEMES.map(([key, name, about]) => {
+          const scheme = document.createElement("li");
+          scheme.className = "scheme";
+          const heading = document.createElement("h3");
+          heading.className = "scheme__name";
+          heading.textContent = name;
+          heading.title = about;
+          const swatches = document.createElement("ul");
+          swatches.className = "swatches";
+          swatches.setAttribute("aria-label", name + ", pick one to copy it");
+          for (const color of [palette[key]].flat()) {
             const li = document.createElement("li");
             const button = document.createElement("button");
             button.type = "button";
             button.className = "swatch";
             button.textContent = color;
-            button.title = i === 0 ? "The day's color" : "Copy " + color;
+            button.title = "Copy " + color;
             button.style.setProperty("--swatch", color);
             button.style.setProperty("--on", contrastColor(color));
             button.addEventListener("click", () => copy(color));
             li.append(button);
-            return li;
-          })
-        );
-      }
-
-      let saved = null;
-      try {
-        saved = localStorage.getItem(SCHEME_KEY);
-      } catch {
-        // Storage blocked: start on triadic
-      }
-      const start = schemes.querySelector(`input[value="${saved}"]`);
-      if (start) start.checked = true;
-      showScheme(schemes.querySelector("input:checked").value);
-
-      schemes.addEventListener("change", (event) => {
-        showScheme(event.target.value);
-        note.textContent = "";
-        try {
-          localStorage.setItem(SCHEME_KEY, event.target.value);
-        } catch {
-          // Storage blocked: it just won't be remembered
-        }
-      });
+            swatches.append(li);
+          }
+          scheme.append(heading, swatches);
+          return scheme;
+        })
+      );
 
       async function copy(color) {
         try {
