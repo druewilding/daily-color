@@ -21,7 +21,7 @@ console.log("Today's color is:", getDailyColor());
 console.log("Another day's color is:", getDailyColor(new Date("2024-11-09")));
 ```
 
-Colors that go with the day's color, worked out in OKLCH so they keep its lightness and strength:
+Colors that go with the day's color, worked out in OKLCH so they keep its lightness and strength (on gray days they get a little extra strength, so there's always some color):
 
 ```javascript
 import { getDailyPalette, getPalette } from "daily-color";
@@ -29,11 +29,11 @@ import { getDailyPalette, getPalette } from "daily-color";
 const palette = getDailyPalette(); // or getDailyPalette(new Date("2024-11-09"))
 palette.color; // the day's color, e.g. "#7ad2f9"
 palette.contrast; // "#000000" or "#ffffff", whichever reads better on it
-palette.complementary; // "#fbb18b"
-palette.splitComplementary; // ["#ffabac", "#e9bd78"]
-palette.analogous; // ["#6bd9dd", "#a2c7ff"]
-palette.triadic; // ["#f7aad0", "#cacb7c"]
-palette.tetradic; // ["#e1b0ef", "#fbb18b", "#a4d595"]
+palette.complementary; // "#ffb086"
+palette.splitComplementary; // ["#ffabac", "#ecbc6f"]
+palette.analogous; // ["#5edbdf", "#a2c7ff"]
+palette.triadic; // ["#fba8d1", "#cbcb74"]
+palette.tetradic; // ["#e4aef3", "#ffb086", "#a1d691"]
 
 getPalette("#3fa2c1"); // the same, for any color
 ```

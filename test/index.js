@@ -46,17 +46,37 @@ test("the palette has the right number of each", () => {
 });
 
 test("the complement of a complement is close to where it started", () => {
-  const back = getPalette(getPalette("#3fa2c1").complementary).complementary;
+  const back = getPalette(getPalette("#18c141").complementary).complementary;
   const distance = Math.max(
-    ...[0, 1, 2].map((i) => Math.abs(parseInt(back.substr(1 + i * 2, 2), 16) - parseInt("3fa2c1".substr(i * 2, 2), 16)))
+    ...[0, 1, 2].map((i) => Math.abs(parseInt(back.substr(1 + i * 2, 2), 16) - parseInt("18c141".substr(i * 2, 2), 16)))
   );
-  assert.ok(distance <= 2, `${back} is too far from #3fa2c1`);
+  assert.ok(distance <= 2, `${back} is too far from #18c141`);
 });
 
-test("grays stay gray", () => {
-  const p = getPalette("#888888");
-  assert.equal(p.complementary, "#888888");
-  assert.deepEqual(p.triadic, ["#888888", "#888888"]);
+// How far apart the red, green and blue are: 0 for a gray
+const spread = (hex) => {
+  const [r, g, b] = hex.match(/\w\w/g).map((h) => parseInt(h, 16));
+  return Math.max(r, g, b) - Math.min(r, g, b);
+};
+
+test("gray days still get colors to go with them", () => {
+  for (const gray of ["#888888", "#8e918d", "#333333", "#cccccc"]) {
+    const p = getPalette(gray);
+    assert.equal(p.color, gray);
+    for (const partner of [p.complementary, ...p.triadic, ...p.analogous]) {
+      assert.ok(spread(partner) >= 25, `${partner} goes with ${gray} but is still gray`);
+    }
+  }
+});
+
+test("black and white stay black and white", () => {
+  assert.equal(getPalette("#ffffff").complementary, "#ffffff");
+  assert.equal(getPalette("#000000").complementary, "#000000");
+});
+
+test("strong colors keep their own strength", () => {
+  // #18c141 is stronger than the floor, so its partners keep its strength
+  assert.equal(getPalette("#18c141").complementary, "#e068e6");
 });
 
 test("the contrast color is readable, every day", () => {

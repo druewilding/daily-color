@@ -3,6 +3,12 @@
 // The hues are turned in OKLCH, which matches how we see color better than
 // HSL does, so the partners keep the color's lightness and strength. When a
 // turned color doesn't fit in sRGB, its chroma comes down until it does.
+//
+// Grayish colors have hardly any chroma (strength) to keep, so their partners
+// get at least MIN_CHROMA, and a gray day still has some color to go with it.
+// A gray's hue is only a tiny tint, but it's always the same for that gray.
+
+const MIN_CHROMA = 0.11;
 
 /**
  * A palette of colors that go with `hex`.
@@ -10,7 +16,8 @@
  */
 export function getPalette(hex) {
   const { L, C, H } = linToOklch(hexToLin(hex));
-  const turn = (degrees) => fromOklch(L, C, (H + degrees) % 360);
+  const strength = Math.max(C, MIN_CHROMA);
+  const turn = (degrees) => fromOklch(L, strength, (H + degrees) % 360);
 
   return {
     color: hex.toLowerCase(),
