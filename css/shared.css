@@ -1,0 +1,18 @@
+/* Shared by both pages */
+
+/* Fade from one day to the next (and to and from the month). Browsers
+   without cross-page view transitions, and reduced motion, just switch. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: 0.4s;
+  }
+}
+
+:root {
+  --klods-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --klods-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}

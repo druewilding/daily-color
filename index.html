@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#888888" />
     <title>Daily Color</title>
     <meta
       name="description"
-      content="A different colour for every day of the year, the same for everyone in the world."
+      content="A different color for every day of the year, the same for everyone in the world, and the colors that go with it."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,340 +15,28 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@600&display=swap"
     />
-    <style>
-      :root {
-        --day: #888888;
-        --ink: #000000;
-        --bg: #fbfaf9;
-        --surface: #f1efed;
-        --fg: #1f1d1c;
-        --muted: #5f5b58;
-        --border: #dfdbd7;
-        --link: #1f1d1c;
-        color-scheme: light;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #161514;
-          --surface: #211f1e;
-          --fg: #f1efed;
-          --muted: #b3aeaa;
-          --border: #3a3735;
-          --link: #f1efed;
-          color-scheme: dark;
-        }
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
-      }
-
-      body {
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-        font-size: 1.05rem;
-        line-height: 1.6;
-        color: var(--fg);
-        background: var(--bg);
-      }
-
-      a {
-        color: var(--link);
-        text-underline-offset: 0.2em;
-      }
-
-      code,
-      pre {
-        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
-        font-variant-ligatures: none;
-      }
-
-      /* ── Today's colour, filling the screen ── */
-      .hero {
-        position: relative;
-        display: grid;
-        place-items: center;
-        align-content: center;
-        gap: 0.75rem;
-        min-height: 100svh;
-        padding: 2rem 16px 5rem;
-        color: var(--ink);
-        background: var(--day);
-        text-align: center;
-      }
-
-      .hero__label {
-        margin: 0;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-      }
-
-      .hero__hex {
-        margin: 0;
-        font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
-        font-size: clamp(3rem, 15vw, 8rem);
-        font-weight: 600;
-        line-height: 1;
-        letter-spacing: -0.02em;
-      }
-
-      .hero__nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.6rem;
-        margin-top: 0.75rem;
-      }
-
-      .hero__nav a {
-        padding: 0.4rem 1rem;
-        color: inherit;
-        font-weight: 600;
-        text-decoration: none;
-        border: 2px solid currentColor;
-        border-radius: 999px;
-      }
-
-      .hero__nav a:hover {
-        color: var(--day);
-        background: var(--ink);
-        border-color: var(--ink);
-      }
-
-      .hero__more {
-        position: absolute;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        color: inherit;
-        font-weight: 600;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-
-      .hero__more::after {
-        content: " ↓";
-      }
-
-      /* ── About ── */
-      main {
-        max-width: 44rem;
-        margin: 0 auto;
-        padding: 4rem 16px 3rem;
-      }
-
-      h2,
-      h3 {
-        font-family: "Bricolage Grotesque", Inter, sans-serif;
-        line-height: 1.15;
-      }
-
-      h2 {
-        margin: 3.5rem 0 1rem;
-        font-size: clamp(1.7rem, 5vw, 2.2rem);
-        font-weight: 800;
-      }
-
-      h2:first-child {
-        margin-top: 0;
-      }
-
-      h3 {
-        margin: 2rem 0 0.5rem;
-        font-size: 1.2rem;
-        font-weight: 700;
-      }
-
-      p,
-      ul {
-        margin: 0 0 1rem;
-      }
-
-      pre {
-        margin: 0 0 1rem;
-        padding: 1rem 1.15rem;
-        overflow-x: auto;
-        font-size: 0.85rem;
-        line-height: 1.6;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-left: 6px solid var(--day);
-        border-radius: 8px;
-      }
-
-      :not(pre) > code {
-        padding: 0.1em 0.35em;
-        font-size: 0.88em;
-        background: var(--surface);
-        border-radius: 4px;
-      }
-
-      /* A little strip of the next fortnight's colours */
-      .strip {
-        display: grid;
-        grid-template-columns: repeat(14, 1fr);
-        gap: 4px;
-        margin: 1.5rem 0 0.5rem;
-        padding: 0;
-        list-style: none;
-      }
-
-      .strip a {
-        display: block;
-        aspect-ratio: 1;
-        border-radius: 4px;
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
-      }
-
-      .strip__caption {
-        font-size: 0.9rem;
-        color: var(--muted);
-      }
-
-      footer {
-        max-width: 44rem;
-        margin: 0 auto;
-        padding: 2rem 16px 3rem;
-        font-size: 0.9rem;
-        color: var(--muted);
-        border-top: 1px solid var(--border);
-      }
-
-      footer a {
-        color: inherit;
-      }
-    </style>
-  </head>
-
-  <body>
-    <header class="hero">
-      <p class="hero__label" data-label>Today</p>
-      <p class="hero__hex" data-hex>#000000</p>
-      <nav class="hero__nav" aria-label="Other days">
-        <a data-prev href="./">← Previous day</a>
-        <a data-next href="./">Next day →</a>
-      </nav>
-      <a class="hero__more" href="#about">What is this?</a>
-    </header>
-
-    <main id="about">
-      <h2>A colour for every day</h2>
-      <p>
-        Daily Color turns a date into a colour. Every day has its own hex code, and because it's worked out from the
-        date alone, everyone in the world gets the same colour on the same day. There's no server, no database and no
-        randomness, just a little bit of maths.
-      </p>
-      <p>
-        My website <a href="https://www.druewilding.com/">druewilding.com</a> wears the day's colour, so it looks
-        different every day. You can see <a href="https://www.druewilding.com/colours/">a whole year of colours</a> on a
-        calendar there.
-      </p>
-
-      <ol class="strip" data-strip aria-label="The next fortnight's colours"></ol>
-      <p class="strip__caption">The next fortnight. Pick one to see it here.</p>
-
-      <h2>How it works</h2>
-      <p>
-        The day, month and year are mixed together into one long string of digits. A small hash function turns that
-        string into a number, and three bytes of the number become the red, green and blue of the colour. A tiny change
-        in the date gives a completely different colour, so pale pinks, deep greens and bright yellows all turn up in no
-        particular order.
-      </p>
-      <p>
-        It uses the date where you are, so the colour changes at your own midnight. Run it twice on the same day and
-        you'll always get the same answer.
-      </p>
-
-      <h2>Use it</h2>
-
-      <h3>In a JavaScript or TypeScript project</h3>
-      <p>Install it from <a href="https://www.npmjs.com/package/daily-color">npm</a>:</p>
-      <pre><code>npm install daily-color</code></pre>
-      <p>Then ask for today's colour, or any other day's:</p>
-      <pre><code>import { getDailyColor } from "daily-color";
-
-getDailyColor(); // today, e.g. "<span data-hex>#000000</span>"
-getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
-
-      <h3>On a web page, without npm</h3>
-      <pre><code>&lt;script type="module"&gt;
-  import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
-
-  document.body.style.background = getDailyColor();
-&lt;/script&gt;</code></pre>
-
-      <h3>On the command line</h3>
-      <pre><code>npx daily-color</code></pre>
-      <p>
-        It prints today's colour. Install it globally with <code>npm install -g daily-color</code> to get a
-        <code>dailycolor</code> command.
-      </p>
-
-      <h3>On this page</h3>
-      <p>
-        Add a date to the address to see that day, like
-        <a href="?date=2027-01-01"><code>?date=2027-01-01</code></a
-        >. There's also <a href="month">a page of the next 36 days</a>.
-      </p>
-
-      <h2>Ideas</h2>
-      <ul>
-        <li>A website or app that changes colour every day</li>
-        <li>A colour of the day for a team chat, a dashboard or a desktop background</li>
-        <li>A daily drawing or knitting challenge</li>
-      </ul>
-    </main>
-
-    <footer>
-      Made by <a href="https://www.druewilding.com/">Drue Wilding</a>. The code is on
-      <a href="https://github.com/druewilding/daily-color">GitHub</a> and the package is on
-      <a href="https://www.npmjs.com/package/daily-color">npm</a>.
-    </footer>
-
-    <script type="module">
-      import { getDailyColor } from "./dist/daily-color.js";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/klods-css@2.2.0/dist/klods.min.css" />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <!-- Plain scripts, not modules: they run before anything is drawn, so a
+         new day never shows the placeholder color or hex -->
+    <script src="dist/daily-color.umd.js"></script>
+    <script>
+      const { contrastColor, getDailyPalette } = DailyColor;
 
       const today = startOfDay(new Date());
       const date = dateFromUrl() || today;
       const isToday = date.getTime() === today.getTime();
-      const hex = getDailyColor(date);
+      const palette = getDailyPalette(date);
+      const hex = palette.color;
+      // Dates in the visitor's own kind of English (21 November or November 21),
+      // or plain "en" when their browser prefers another language
+      const locale = navigator.languages.find((l) => /^en\b/i.test(l)) || "en";
 
-      const root = document.documentElement;
-      root.style.setProperty("--day", hex);
-      root.style.setProperty("--ink", inkFor(hex));
-
-      document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
-      // "Today, Tuesday 17 November 2026" or "Monday 16 November 2026"
-      const longDate =
-        date.toLocaleDateString("en-GB", { weekday: "long" }) +
-        " " +
-        date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-      document.querySelector("[data-label]").textContent = isToday ? "Today, " + longDate : longDate;
+      document.documentElement.style.setProperty("--day", hex);
+      document.documentElement.style.setProperty("--ink", palette.contrast);
+      document.querySelector('meta[name="theme-color"]').content = hex;
       document.title = hex + " · Daily Color";
-
-      document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
-      document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
-
-      // The next fortnight, from today
-      const strip = document.querySelector("[data-strip]");
-      for (let i = 0; i < 14; i++) {
-        const day = addDays(today, i);
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = linkTo(day);
-        a.style.background = getDailyColor(day);
-        a.title = getDailyColor(day);
-        a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
-        li.append(a);
-        strip.append(li);
-      }
 
       // ?date=YYYY-MM-DD, read as a day where you are (not as UTC midnight)
       function dateFromUrl() {
@@ -368,16 +57,222 @@ getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
         const pad = (n) => String(n).padStart(2, "0");
         return "?date=" + d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
       }
+    </script>
+  </head>
 
-      // Black or white text, whichever is easier to read on the colour
-      function inkFor(colour) {
-        const lin = (v) => {
-          v /= 255;
-          return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-        };
-        const [r, g, b] = colour.match(/\w\w/g).map((h) => lin(parseInt(h, 16)));
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        return (lum + 0.05) / 0.05 >= 1.05 / (lum + 0.05) ? "#000000" : "#ffffff";
+  <body class="klods-page">
+    <header class="hero">
+      <div class="hero__day">
+        <p class="hero__label" data-label>Today</p>
+        <p class="hero__hex" data-hex>#000000</p>
+
+        <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
+          <a class="klods-button" data-prev href="./">← Previous day</a>
+          <a class="klods-button" data-next href="./">Next day →</a>
+        </nav>
+      </div>
+
+      <section class="palette" aria-labelledby="palette-title">
+        <h2 class="palette__title" id="palette-title">Colors that go with it</h2>
+        <ul class="schemes" data-schemes></ul>
+        <p class="palette__note" data-note role="status"></p>
+      </section>
+
+      <a class="hero__more" href="#about">What is this?</a>
+    </header>
+    <script>
+      // Fill in the hero straight away, before it can be drawn
+      document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
+      // "Today, Tuesday 17 November 2026" or "Today, Tuesday, November 17, 2026"
+      const longDate = date.toLocaleDateString(locale, {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      document.querySelector("[data-label]").textContent = isToday ? "Today, " + longDate : longDate;
+      document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
+      document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
+
+      // ── The colors that go with it, every palette at once ──
+      const SCHEMES = [
+        ["contrast", "Contrast", "Black or white, whichever is easier to read on it"],
+        ["complementary", "Complementary", "Opposite on the color wheel"],
+        ["splitComplementary", "Split complementary", "Either side of the complement"],
+        ["analogous", "Analogous", "Next door on the color wheel"],
+        ["triadic", "Triadic", "A third of the way round each way"],
+        ["tetradic", "Tetradic", "A square round the color wheel"],
+      ];
+      const note = document.querySelector("[data-note]");
+
+      document.querySelector("[data-schemes]").append(
+        ...SCHEMES.map(([key, name, about]) => {
+          const scheme = document.createElement("li");
+          scheme.className = "scheme";
+          const heading = document.createElement("h3");
+          heading.className = "scheme__name";
+          heading.textContent = name;
+          heading.title = about;
+          const swatches = document.createElement("ul");
+          swatches.className = "swatches";
+          swatches.setAttribute("aria-label", name + ", pick one to copy it");
+          for (const color of [palette[key]].flat()) {
+            const li = document.createElement("li");
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "swatch";
+            button.textContent = color;
+            button.title = "Copy " + color;
+            button.style.setProperty("--swatch", color);
+            button.style.setProperty("--on", contrastColor(color));
+            button.addEventListener("click", () => copy(color));
+            li.append(button);
+            swatches.append(li);
+          }
+          scheme.append(heading, swatches);
+          return scheme;
+        })
+      );
+
+      async function copy(color) {
+        try {
+          await navigator.clipboard.writeText(color);
+          note.textContent = `Copied ${color}`;
+        } catch {
+          note.textContent = color;
+        }
+      }
+    </script>
+
+    <main id="about" class="klods-content klods-content--narrow klods-prose">
+      <h2>A color for every day</h2>
+      <p>
+        Daily Color turns a date into a color. Every day has its own hex code, and because it's worked out from the date
+        alone, everyone in the world gets the same color on the same day. There's no server, no database and no
+        randomness, just a little bit of math.
+      </p>
+      <p>
+        My website <a href="https://www.druewilding.com/">druewilding.com</a> wears the day's color, so it looks
+        different every day. You can see <a href="https://www.druewilding.com/colors/">a whole year of colors</a> on a
+        calendar there.
+      </p>
+
+      <ol class="strip" data-strip aria-label="The next fortnight's colors"></ol>
+      <p class="klods-muted">The next fortnight. Pick one to see it here.</p>
+
+      <h2>How it works</h2>
+      <p>
+        The day, month and year are mixed together into one long string of digits. A small hash function turns that
+        string into a number, and three bytes of the number become the red, green and blue of the color. A tiny change
+        in the date gives a completely different color, so pale pinks, deep greens and bright yellows all turn up in no
+        particular order.
+      </p>
+      <p>
+        It uses the date where you are, so the color changes at your own midnight. Run it twice on the same day and
+        you'll always get the same answer.
+      </p>
+
+      <h3>The colors that go with it</h3>
+      <p>
+        The other colors are the day's color turned round the color wheel: halfway round for its complement, a third of
+        the way for a triad, and so on. The turning happens in OKLCH, a way of describing color that's closer to how we
+        see it than RGB is, so every color keeps the same lightness and strength and they sit nicely together. A gray
+        day has hardly any strength to keep, so its colors get a little extra, and there's always something colorful to
+        go with it.
+      </p>
+      <p>
+        The text on the color is black or white, whichever is easier to read. That's in the palette too, as
+        <code>contrast</code>.
+      </p>
+
+      <h2>Use it</h2>
+
+      <h3>In a JavaScript or TypeScript project</h3>
+      <p>Install it from <a href="https://www.npmjs.com/package/daily-color">npm</a>:</p>
+      <pre><code>npm install daily-color</code></pre>
+      <p>Then ask for today's color, or any other day's:</p>
+      <pre><code>import { getDailyColor } from "daily-color";
+
+getDailyColor(); // today, e.g. "<span data-hex>#000000</span>"
+getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
+      <p>Or get the colors that go with it too:</p>
+      <pre><code>import { getDailyPalette, getPalette } from "daily-color";
+
+const palette = getDailyPalette(); // or getDailyPalette(new Date(2027, 0, 1))
+palette.color; // the day's color
+palette.contrast; // "#000000" or "#ffffff", whichever reads better on it
+palette.complementary; // one color
+palette.splitComplementary; // two colors
+palette.analogous; // two colors
+palette.triadic; // two colors
+palette.tetradic; // three colors
+
+getPalette("#3fa2c1"); // the same, for any color</code></pre>
+      <p>And black or white text, whichever is easier to read on any color:</p>
+      <pre><code>import { contrastColor } from "daily-color";
+
+contrastColor("#7ad2f9"); // "#000000"
+contrastColor("#1935a4"); // "#ffffff"</code></pre>
+
+      <h3>On a web page, without npm</h3>
+      <pre><code>&lt;script type="module"&gt;
+  import { getDailyColor } from "https://www.druewilding.com/daily-color/dist/daily-color.js";
+
+  document.body.style.background = getDailyColor();
+&lt;/script&gt;</code></pre>
+
+      <h3>On the command line</h3>
+      <pre><code>npx daily-color</code></pre>
+      <p>
+        It prints today's color. Install it globally with <code>npm install -g daily-color</code> to get a
+        <code>dailycolor</code> command. Name the colors you want to see the ones that go with it, and add a date to see
+        another day:
+      </p>
+      <pre><code>dailycolor complementary
+dailycolor triadic analogous
+dailycolor all --date 2027-01-01
+dailycolor --help</code></pre>
+
+      <h3>On this page</h3>
+      <p>
+        Add a date to the address to see that day, like
+        <a href="?date=2027-01-01"><code>?date=2027-01-01</code></a
+        >. There's also <a href="month">a page of the next 36 days</a>.
+      </p>
+
+      <h2>Ideas</h2>
+      <ul>
+        <li>A website or app that changes color every day</li>
+        <li>A color of the day for a team chat, a dashboard or a desktop background</li>
+        <li>A daily drawing or knitting challenge, with a palette to go with it</li>
+      </ul>
+    </main>
+
+    <footer class="klods-footer">
+      <p class="klods-content klods-content--narrow">
+        Made by <a href="https://www.druewilding.com/">Drue Wilding</a>. The code is on
+        <a href="https://github.com/druewilding/daily-color">GitHub</a> and the package is on
+        <a href="https://www.npmjs.com/package/daily-color">npm</a>.
+      </p>
+    </footer>
+
+    <script>
+      // The hex in the code example
+      document.querySelectorAll("[data-hex]").forEach((el) => (el.textContent = hex));
+
+      // ── The next fortnight, from today ──
+      const strip = document.querySelector("[data-strip]");
+      for (let i = 0; i < 14; i++) {
+        const day = addDays(today, i);
+        const color = getDailyPalette(day).color;
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = linkTo(day);
+        a.style.background = color;
+        a.title = color;
+        a.setAttribute("aria-label", day.toLocaleDateString(locale, { day: "numeric", month: "long" }));
+        li.append(a);
+        strip.append(li);
       }
     </script>
   </body>
