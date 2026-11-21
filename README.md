@@ -58,14 +58,32 @@ Directly loading the bundled JavaScript, for static projects not using NPM:
 </script>
 ```
 
-Or as a plain script, which sets `window.DailyColor`. Plain scripts in `<head>` run before the page is drawn, so the color is there from the very first frame:
+Or as a plain script, which sets `window.DailyColor`. Plain scripts in `<head>` run before the page is drawn, so the color is there from the very first frame. Pin a version from jsDelivr so it never changes under you:
 
 ```html
-<script src="https://www.druewilding.com/daily-color/dist/daily-color.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daily-color@3/dist/daily-color.umd.js"></script>
 <script>
   document.documentElement.style.setProperty("--day", DailyColor.getDailyColor());
 </script>
 ```
+
+### Building your own colors
+
+The color tools behind the palette are there too, for making a whole theme from the day's color:
+
+```javascript
+import { contrastRatio, getDailyColor, oklch, readableOn, toOklch } from "daily-color";
+
+const { l, c, h } = toOklch(getDailyColor()); // lightness 0–1, chroma 0–0.37, hue 0–360°
+const pale = oklch(0.97, 0.02, h); // a background faintly tinted with the day's hue
+const link = readableOn(getDailyColor(), pale); // darker or lighter until it reads at 4.5:1
+contrastRatio(link, pale); // 4.5 or more
+
+readableOn(getDailyColor(), "#ffffff", 7); // ask for more contrast
+readableOn({ l: 0.9, c: 0.25, h }, "#ffffff"); // keep chroma that only fits once it's darker
+```
+
+`oklch()` brings the chroma down when a color doesn't fit in sRGB, so its lightness and hue stay true. `readableOn()` keeps the hue and chroma and only moves the lightness: darker on a light background, lighter on a dark one.
 
 Using the CLI:
 

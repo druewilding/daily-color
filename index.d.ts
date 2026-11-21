@@ -19,3 +19,25 @@ export function getDailyColor(date?: Date): string;
 export function getDailyPalette(date?: Date): Palette;
 export function getPalette(hex: string): Palette;
 export function contrastColor(hex: string): string;
+
+/** The WCAG contrast ratio between two colors, from 1 to 21 */
+export function contrastRatio(a: string, b: string): number;
+
+export interface Oklch {
+  /** Lightness, 0 to 1 */
+  l: number;
+  /** Chroma (strength), 0 to about 0.37 */
+  c: number;
+  /** Hue, 0 to 360° */
+  h: number;
+}
+
+/** A hex color in OKLCH */
+export function toOklch(hex: string): Oklch;
+/** The hex code for an OKLCH color, with chroma brought down to fit in sRGB */
+export function oklch(l: number, c: number, h: number): string;
+/**
+ * The color made darker or lighter until it reads on the background (4.5:1 by
+ * default), keeping its hue and chroma. Black or white if nothing is enough.
+ */
+export function readableOn(color: string | Oklch, background: string, ratio?: number): string;

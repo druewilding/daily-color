@@ -16,6 +16,7 @@
   "license": "ISC",
   "author": "Drue Wilding",
   "files": [
+    "dist",
     "index.d.ts",
     "index.js",
     "palette.js"
@@ -35,6 +36,7 @@
     "lint": "eslint --fix",
     "lint:check": "eslint",
     "package:lint": "npx npm-package-json-lint .",
+    "prepublishOnly": "npm run webpack",
     "test": "node --test test/",
     "webpack": "npx webpack"
   },

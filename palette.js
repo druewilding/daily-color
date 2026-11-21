@@ -43,6 +43,47 @@ export function contrastRatio(a, b) {
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 }
 
+/**
+ * `color` made readable on `background`: the same hue and chroma, made darker
+ * (on a light background) or lighter (on a dark one) until the contrast ratio
+ * is at least `ratio`. A color that's already readable comes back as it is.
+ * If no lightness is enough, you get black or white.
+ *
+ * `color` can be a hex code, or { l, c, h } to keep a chroma that wouldn't fit
+ * in sRGB at its starting lightness but might once it's darker or lighter.
+ * @param {string | {l: number, c: number, h: number}} color
+ * @param {string} background
+ * @param {number} [ratio] Defaults to 4.5, the WCAG AA level for text
+ */
+export function readableOn(color, background, ratio = 4.5) {
+  const { l, c, h } = typeof color === "string" ? toOklch(color) : color;
+  const dir = contrastColor(background) === "#000000" ? -1 : 1;
+  for (let step = 0; step <= 200; step++) {
+    const L = l + dir * step * 0.005;
+    if (L < 0 || L > 1) break;
+    const candidate = step === 0 && typeof color === "string" ? color.toLowerCase() : oklch(L, c, h);
+    if (contrastRatio(candidate, background) >= ratio) return candidate;
+  }
+  return dir < 0 ? "#000000" : "#ffffff";
+}
+
+/**
+ * A hex color's lightness (0 to 1), chroma (0 to about 0.37) and hue (0 to
+ * 360°) in OKLCH
+ */
+export function toOklch(hex) {
+  const { L, C, H } = linToOklch(hexToLin(hex));
+  return { l: L, c: C, h: H };
+}
+
+/**
+ * The hex code for an OKLCH color. If it doesn't fit in sRGB, its chroma comes
+ * down until it does, so the lightness and hue stay true.
+ */
+export function oklch(l, c, h) {
+  return fromOklch(Math.min(1, Math.max(0, l)), Math.max(0, c), ((h % 360) + 360) % 360);
+}
+
 function luminance(hex) {
   const [r, g, b] = hexToLin(hex);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
