@@ -1,6 +1,6 @@
 {
   "name": "daily-color",
-  "version": "2.3.19",
+  "version": "3.0.0",
   "description": "Provides a unique hex code each day",
   "keywords": [
     "color",

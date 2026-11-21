@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0](https://github.com/druewilding/daily-color/compare/v2.3.19...v3.0.0) (2026-11-21)
+
+
+### Features
+
+* Add the colors that go with the day's color, color tools, and a new demo ([#80](https://github.com/druewilding/daily-color/issues/80)) ([42189b3](https://github.com/druewilding/daily-color/commit/42189b3e1b36b7204cbf02c4ac9236c22f0c906a))
+
 ## [2.3.19](https://github.com/druewilding/daily-color/compare/v2.3.18...v2.3.19) (2026-11-20)
 
 
