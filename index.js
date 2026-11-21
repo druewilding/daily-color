@@ -13,7 +13,7 @@ export function getDailyColor(date = new Date()) {
 }
 
 /**
- * The day's colour and the colours that go with it.
+ * The day's color and the colors that go with it.
  * @param {Date} [date] Defaults to today
  */
 export function getDailyPalette(date = new Date()) {

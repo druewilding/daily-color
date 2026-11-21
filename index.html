@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,7 @@
     <title>Daily Color</title>
     <meta
       name="description"
-      content="A different colour for every day of the year, the same for everyone in the world, and the colours that go with it."
+      content="A different color for every day of the year, the same for everyone in the world, and the colors that go with it."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,8 +42,8 @@
         font-variant-ligatures: none;
       }
 
-      /* ── Today's colour, filling the screen ──
-         Inside it, klods' own tokens are the day's colour and black or white,
+      /* ── Today's color, filling the screen ──
+         Inside it, klods' own tokens are the day's color and black or white,
          so the buttons and the segmented control wear them too. */
       .hero {
         --klods-color-fg: var(--ink);
@@ -101,13 +101,14 @@
         content: " ↓";
       }
 
-      /* ── The colours that go with it, on the day's colour ── */
+      /* ── The colors that go with it, on the day's color ── */
       .palette {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: var(--klods-space-4);
         width: min(100%, 44rem);
+        margin-block-start: var(--klods-space-4);
       }
 
       .palette__title {
@@ -208,7 +209,7 @@
         border-left: 6px solid var(--day);
       }
 
-      /* A little strip of the next fortnight's colours */
+      /* A little strip of the next fortnight's colors */
       .strip {
         display: grid;
         grid-template-columns: repeat(14, 1fr);
@@ -243,10 +244,15 @@
       <p class="hero__label" data-label>Today</p>
       <p class="hero__hex" data-hex>#000000</p>
 
+      <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
+        <a class="klods-button" data-prev href="./">← Previous day</a>
+        <a class="klods-button" data-next href="./">Next day →</a>
+      </nav>
+
       <section class="palette" aria-labelledby="palette-title">
-        <h2 class="palette__title" id="palette-title">Colours that go with it</h2>
+        <h2 class="palette__title" id="palette-title">Colors that go with it</h2>
         <div class="klods-segmented" role="radiogroup" aria-labelledby="palette-title" data-schemes>
-          <label class="klods-segmented__option" title="Opposite on the colour wheel">
+          <label class="klods-segmented__option" title="Opposite on the color wheel">
             <input type="radio" class="klods-segmented__input" name="scheme" value="complementary" />
             Complementary
           </label>
@@ -254,7 +260,7 @@
             <input type="radio" class="klods-segmented__input" name="scheme" value="splitComplementary" />
             Split
           </label>
-          <label class="klods-segmented__option" title="Next door on the colour wheel">
+          <label class="klods-segmented__option" title="Next door on the color wheel">
             <input type="radio" class="klods-segmented__input" name="scheme" value="analogous" />
             Analogous
           </label>
@@ -262,7 +268,7 @@
             <input type="radio" class="klods-segmented__input" name="scheme" value="triadic" checked />
             Triadic
           </label>
-          <label class="klods-segmented__option" title="A square round the colour wheel">
+          <label class="klods-segmented__option" title="A square round the color wheel">
             <input type="radio" class="klods-segmented__input" name="scheme" value="tetradic" />
             Tetradic
           </label>
@@ -271,54 +277,50 @@
             Contrast
           </label>
         </div>
-        <ul class="swatches" data-swatches aria-label="Colours, pick one to copy it"></ul>
+        <ul class="swatches" data-swatches aria-label="Colors, pick one to copy it"></ul>
         <p class="palette__note" data-note role="status"></p>
       </section>
 
-      <nav class="klods-cluster klods-cluster--gap-3" aria-label="Other days">
-        <a class="klods-button" data-prev href="./">← Previous day</a>
-        <a class="klods-button" data-next href="./">Next day →</a>
-      </nav>
       <a class="hero__more" href="#about">What is this?</a>
     </header>
 
     <main id="about" class="klods-content klods-content--narrow klods-prose">
-      <h2>A colour for every day</h2>
+      <h2>A color for every day</h2>
       <p>
-        Daily Color turns a date into a colour. Every day has its own hex code, and because it's worked out from the
-        date alone, everyone in the world gets the same colour on the same day. There's no server, no database and no
-        randomness, just a little bit of maths.
+        Daily Color turns a date into a color. Every day has its own hex code, and because it's worked out from the date
+        alone, everyone in the world gets the same color on the same day. There's no server, no database and no
+        randomness, just a little bit of math.
       </p>
       <p>
-        My website <a href="https://www.druewilding.com/">druewilding.com</a> wears the day's colour, so it looks
-        different every day. You can see <a href="https://www.druewilding.com/colours/">a whole year of colours</a> on a
+        My website <a href="https://www.druewilding.com/">druewilding.com</a> wears the day's color, so it looks
+        different every day. You can see <a href="https://www.druewilding.com/colors/">a whole year of colors</a> on a
         calendar there.
       </p>
 
-      <ol class="strip" data-strip aria-label="The next fortnight's colours"></ol>
+      <ol class="strip" data-strip aria-label="The next fortnight's colors"></ol>
       <p class="klods-muted">The next fortnight. Pick one to see it here.</p>
 
       <h2>How it works</h2>
       <p>
         The day, month and year are mixed together into one long string of digits. A small hash function turns that
-        string into a number, and three bytes of the number become the red, green and blue of the colour. A tiny change
-        in the date gives a completely different colour, so pale pinks, deep greens and bright yellows all turn up in no
+        string into a number, and three bytes of the number become the red, green and blue of the color. A tiny change
+        in the date gives a completely different color, so pale pinks, deep greens and bright yellows all turn up in no
         particular order.
       </p>
       <p>
-        It uses the date where you are, so the colour changes at your own midnight. Run it twice on the same day and
+        It uses the date where you are, so the color changes at your own midnight. Run it twice on the same day and
         you'll always get the same answer.
       </p>
 
-      <h3>The colours that go with it</h3>
+      <h3>The colors that go with it</h3>
       <p>
-        The other colours are the day's colour turned round the colour wheel: halfway round for its complement, a third
-        of the way for a triad, and so on. The turning happens in OKLCH, a way of describing colour that's closer to how
-        we see it than RGB is, so every colour keeps the same lightness and strength and they sit nicely together. On a
-        grey day they're all the same grey, because grey has no hue to turn.
+        The other colors are the day's color turned round the color wheel: halfway round for its complement, a third of
+        the way for a triad, and so on. The turning happens in OKLCH, a way of describing color that's closer to how we
+        see it than RGB is, so every color keeps the same lightness and strength and they sit nicely together. On a gray
+        day they're all the same gray, because gray has no hue to turn.
       </p>
       <p>
-        The text on the colour is black or white, whichever is easier to read. That's in the palette too, as
+        The text on the color is black or white, whichever is easier to read. That's in the palette too, as
         <code>contrast</code>.
       </p>
 
@@ -327,25 +329,25 @@
       <h3>In a JavaScript or TypeScript project</h3>
       <p>Install it from <a href="https://www.npmjs.com/package/daily-color">npm</a>:</p>
       <pre><code>npm install daily-color</code></pre>
-      <p>Then ask for today's colour, or any other day's:</p>
+      <p>Then ask for today's color, or any other day's:</p>
       <pre><code>import { getDailyColor } from "daily-color";
 
 getDailyColor(); // today, e.g. "<span data-hex>#000000</span>"
 getDailyColor(new Date(2027, 0, 1)); // New Year's Day 2027</code></pre>
-      <p>Or get the colours that go with it too:</p>
+      <p>Or get the colors that go with it too:</p>
       <pre><code>import { getDailyPalette, getPalette } from "daily-color";
 
 const palette = getDailyPalette(); // or getDailyPalette(new Date(2027, 0, 1))
-palette.color; // the day's colour
+palette.color; // the day's color
 palette.contrast; // "#000000" or "#ffffff", whichever reads better on it
-palette.complementary; // one colour
-palette.splitComplementary; // two colours
-palette.analogous; // two colours
-palette.triadic; // two colours
-palette.tetradic; // three colours
+palette.complementary; // one color
+palette.splitComplementary; // two colors
+palette.analogous; // two colors
+palette.triadic; // two colors
+palette.tetradic; // three colors
 
-getPalette("#3fa2c1"); // the same, for any colour</code></pre>
-      <p>And black or white text, whichever is easier to read on any colour:</p>
+getPalette("#3fa2c1"); // the same, for any color</code></pre>
+      <p>And black or white text, whichever is easier to read on any color:</p>
       <pre><code>import { contrastColor } from "daily-color";
 
 contrastColor("#7ad2f9"); // "#000000"
@@ -361,9 +363,9 @@ contrastColor("#1935a4"); // "#ffffff"</code></pre>
       <h3>On the command line</h3>
       <pre><code>npx daily-color</code></pre>
       <p>
-        It prints today's colour. Install it globally with <code>npm install -g daily-color</code> to get a
-        <code>dailycolor</code> command. Name the colours you want to see the ones that go with it, and add a date to
-        see another day:
+        It prints today's color. Install it globally with <code>npm install -g daily-color</code> to get a
+        <code>dailycolor</code> command. Name the colors you want to see the ones that go with it, and add a date to see
+        another day:
       </p>
       <pre><code>dailycolor complementary
 dailycolor triadic analogous
@@ -379,8 +381,8 @@ dailycolor --help</code></pre>
 
       <h2>Ideas</h2>
       <ul>
-        <li>A website or app that changes colour every day</li>
-        <li>A colour of the day for a team chat, a dashboard or a desktop background</li>
+        <li>A website or app that changes color every day</li>
+        <li>A color of the day for a team chat, a dashboard or a desktop background</li>
         <li>A daily drawing or knitting challenge, with a palette to go with it</li>
       </ul>
     </main>
@@ -419,7 +421,7 @@ dailycolor --help</code></pre>
       document.querySelector("[data-prev]").href = linkTo(addDays(date, -1));
       document.querySelector("[data-next]").href = linkTo(addDays(date, 1));
 
-      // ── The colours that go with it ──
+      // ── The colors that go with it ──
       // The scheme you picked is remembered, so the next day opens on it too
       const SCHEME_KEY = "daily-color-scheme";
       const swatches = document.querySelector("[data-swatches]");
@@ -428,16 +430,16 @@ dailycolor --help</code></pre>
 
       function showScheme(key) {
         swatches.replaceChildren(
-          ...[palette.color, ...[palette[key]].flat()].map((colour, i) => {
+          ...[palette.color, ...[palette[key]].flat()].map((color, i) => {
             const li = document.createElement("li");
             const button = document.createElement("button");
             button.type = "button";
             button.className = "swatch";
-            button.textContent = colour;
-            button.title = i === 0 ? "The day's colour" : "Copy " + colour;
-            button.style.setProperty("--swatch", colour);
-            button.style.setProperty("--on", contrastColor(colour));
-            button.addEventListener("click", () => copy(colour));
+            button.textContent = color;
+            button.title = i === 0 ? "The day's color" : "Copy " + color;
+            button.style.setProperty("--swatch", color);
+            button.style.setProperty("--on", contrastColor(color));
+            button.addEventListener("click", () => copy(color));
             li.append(button);
             return li;
           })
@@ -464,12 +466,12 @@ dailycolor --help</code></pre>
         }
       });
 
-      async function copy(colour) {
+      async function copy(color) {
         try {
-          await navigator.clipboard.writeText(colour);
-          note.textContent = `Copied ${colour}`;
+          await navigator.clipboard.writeText(color);
+          note.textContent = `Copied ${color}`;
         } catch {
-          note.textContent = colour;
+          note.textContent = color;
         }
       }
 
@@ -477,12 +479,12 @@ dailycolor --help</code></pre>
       const strip = document.querySelector("[data-strip]");
       for (let i = 0; i < 14; i++) {
         const day = addDays(today, i);
-        const colour = getDailyPalette(day).color;
+        const color = getDailyPalette(day).color;
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.href = linkTo(day);
-        a.style.background = colour;
-        a.title = colour;
+        a.style.background = color;
+        a.title = color;
         a.setAttribute("aria-label", day.toLocaleDateString("en-GB", { day: "numeric", month: "long" }));
         li.append(a);
         strip.append(li);

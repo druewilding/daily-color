@@ -1,13 +1,13 @@
 export interface Palette {
-  /** The colour itself */
+  /** The color itself */
   color: string;
-  /** Black or white, whichever is easier to read on the colour */
+  /** Black or white, whichever is easier to read on the color */
   contrast: string;
-  /** Opposite on the colour wheel (180°) */
+  /** Opposite on the color wheel (180°) */
   complementary: string;
   /** Either side of the complement (150° and 210°) */
   splitComplementary: [string, string];
-  /** Next door on the colour wheel (-30° and +30°) */
+  /** Next door on the color wheel (-30° and +30°) */
   analogous: [string, string];
   /** A third of the way round each way (120° and 240°) */
   triadic: [string, string];

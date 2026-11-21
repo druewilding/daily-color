@@ -20,17 +20,17 @@ function* days() {
   }
 }
 
-test("a day's colour never changes", () => {
+test("a day's color never changes", () => {
   assert.equal(getDailyColor(new Date(2024, 10, 9)), "#7ad2f9");
 });
 
-test("the palette starts with the day's colour", () => {
+test("the palette starts with the day's color", () => {
   const date = new Date(2024, 10, 9);
   assert.equal(getDailyPalette(date).color, getDailyColor(date));
   assert.deepEqual(getDailyPalette(date), getPalette("#7ad2f9"));
 });
 
-test("every palette colour is a hex code, every day", () => {
+test("every palette color is a hex code, every day", () => {
   for (const day of days()) {
     for (const value of Object.values(getDailyPalette(day)).flat()) assert.match(value, HEX);
   }
@@ -53,13 +53,13 @@ test("the complement of a complement is close to where it started", () => {
   assert.ok(distance <= 2, `${back} is too far from #3fa2c1`);
 });
 
-test("greys stay grey", () => {
+test("grays stay gray", () => {
   const p = getPalette("#888888");
   assert.equal(p.complementary, "#888888");
   assert.deepEqual(p.triadic, ["#888888", "#888888"]);
 });
 
-test("the contrast colour is readable, every day", () => {
+test("the contrast color is readable, every day", () => {
   for (const day of days()) {
     const hex = getDailyColor(day);
     assert.ok(contrastRatio(hex, contrastColor(hex)) >= 4.5, `${hex} on ${day.toDateString()}`);
@@ -68,11 +68,11 @@ test("the contrast colour is readable, every day", () => {
   assert.equal(contrastColor("#000000"), "#ffffff");
 });
 
-test("the CLI prints today's colour", () => {
+test("the CLI prints today's color", () => {
   assert.equal(execFileSync("node", ["bin/dailycolor.js"], { encoding: "utf8" }).trim(), getDailyColor());
 });
 
-test("the CLI prints the colours that go with it", () => {
+test("the CLI prints the colors that go with it", () => {
   const p = getDailyPalette(new Date(2024, 10, 9));
   assert.equal(cli("complementary", "--date", "2024-11-09").stdout.trim(), p.complementary);
   assert.equal(cli("triadic", "--date=2024-11-09").stdout.trim(), p.triadic.join(" "));

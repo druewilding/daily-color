@@ -1,12 +1,12 @@
-// Colours that go with a colour: its complement, triads and so on.
+// Colors that go with a color: its complement, triads and so on.
 //
-// The hues are turned in OKLCH, which matches how we see colour better than
-// HSL does, so the partners keep the colour's lightness and strength. When a
-// turned colour doesn't fit in sRGB, its chroma comes down until it does.
+// The hues are turned in OKLCH, which matches how we see color better than
+// HSL does, so the partners keep the color's lightness and strength. When a
+// turned color doesn't fit in sRGB, its chroma comes down until it does.
 
 /**
- * A palette of colours that go with `hex`.
- * @param {string} hex A colour like "#3fa2c1"
+ * A palette of colors that go with `hex`.
+ * @param {string} hex A color like "#3fa2c1"
  */
 export function getPalette(hex) {
   const { L, C, H } = linToOklch(hexToLin(hex));
@@ -29,7 +29,7 @@ export function contrastColor(hex) {
   return (l + 0.05) / 0.05 >= 1.05 / (l + 0.05) ? "#000000" : "#ffffff";
 }
 
-/** The WCAG contrast ratio between two colours, from 1 to 21 */
+/** The WCAG contrast ratio between two colors, from 1 to 21 */
 export function contrastRatio(a, b) {
   const x = luminance(a);
   const y = luminance(b);
@@ -96,7 +96,7 @@ function inGamut(rgb) {
   return rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
 }
 
-// OKLCH -> hex, bringing chroma down until the colour fits in sRGB
+// OKLCH -> hex, bringing chroma down until the color fits in sRGB
 function fromOklch(L, C, H) {
   let rgb = oklchToLin(L, C, H);
   if (!inGamut(rgb)) {

@@ -17,7 +17,7 @@ Colors:
   analogous             next door on the color wheel
   triadic               a third of the way round each way
   tetradic              a square round the color wheel
-  all                   all of the above, labelled
+  all                   all of the above, labeled
 
 Options:
   -d, --date <date>     another day, like 2027-01-01

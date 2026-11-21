@@ -63,7 +63,7 @@ Using the CLI:
 ```bash
 dailycolor                        # today's color
 dailycolor complementary          # the color opposite it
-dailycolor triadic analogous      # several, labelled
+dailycolor triadic analogous      # several, labeled
 dailycolor all --date 2027-01-01  # everything, for another day
 dailycolor --help                 # all the options
 dailycolor --version
